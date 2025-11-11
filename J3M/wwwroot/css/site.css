@@ -1,3 +1,9 @@
+/*Colors
+    bg-color melon: #FFB8B7
+    border light beige: #FFF5F5
+    contrast: #2F91F7
+    black: 000000
+*/
 html {
   font-size: 14px;
 }
@@ -18,5 +24,8 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: #FFB8B7;
 }
+
+
