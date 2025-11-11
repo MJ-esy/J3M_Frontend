@@ -26,6 +26,48 @@ html {
 body {
     margin-bottom: 60px;
     background-color: #FFB8B7;
+    font-family: 'Lexend Mega', Lexend Mega;
 }
 
+h1{
+    font-family: 'Lexend Deca', Lexend Deca;
+}
 
+/*--------------Navigation bar related------------------*/
+
+/* Logo sizing */
+.navbar-brand .navbar-logo {
+  height: 50px;      /* desired height */
+  width: auto;       /* preserve aspect ratio */
+  max-width: 100%;
+  display: inline-block;
+}
+
+/* Slightly larger logo on wider screens */
+@media (min-width: 768px) {
+  .navbar-brand .navbar-logo {
+    height: 64px;
+  }
+}
+
+.nav-item{
+    margin: 0 3rem;
+    padding: 0 1rem;
+}
+
+.nav-item:hover {
+    animation: shake 0.5s ease-in-out;
+}
+
+.navbar-brand:hover{
+    animation: shake 0.5s infinite;
+}
+
+/*Animations*/
+@keyframes shake {
+    0%{transform: rotate(0deg);}
+    25%{transform: rotate(-10deg);}
+    50%{transform: rotate(15deg);}
+    75%{transform: rotate(-5deg);}
+    100%{transform:rotate(0deg);}
+}
