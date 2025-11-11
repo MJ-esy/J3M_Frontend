@@ -5,12 +5,12 @@
     black: 000000
 */
 html {
-  font-size: 14px;
+  font-size: 16px;
 }
 
 @media (min-width: 768px) {
   html {
-    font-size: 16px;
+    font-size: 18px;
   }
 }
 
@@ -27,10 +27,18 @@ body {
     margin-bottom: 60px;
     background-color: #FFB8B7;
     font-family: 'Lexend Mega', Lexend Mega;
+    font-weight:500;
+}
+
+.poster{
+    background-color: #FFF5F5;
+    border-radius: 1.5rem;
+    padding: 0.5rem;
 }
 
 h1{
     font-family: 'Lexend Deca', Lexend Deca;
+    margin-bottom: 1rem;
 }
 
 /*--------------Navigation bar related------------------*/
@@ -57,6 +65,7 @@ h1{
 
 .nav-item:hover {
     animation: shake 0.5s ease-in-out;
+    text-shadow: 2px 2px 4px #FFF5F5;
 }
 
 .navbar-brand:hover{
