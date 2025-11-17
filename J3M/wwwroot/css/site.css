@@ -151,4 +151,13 @@ h1{
         }
 }
 
+/*---------------------------------------------------------------------------------------------------*/
 
+/*Register Button*/
+.registerBtn {
+    background-color: #2F91F7;
+}
+    .registerBtn:hover {
+        background-color: #000;
+        color: #FFB8B7;
+    }
