@@ -1,0 +1,87 @@
+﻿@using J3M.Models.ViewModels
+
+@model UserProfileViewModel
+
+
+<div class="container mt-4">
+    <div class="row">
+        <!-- LEFT COLUMN (4/12) -->
+        <div class="col-md-4 d-flex flex-column gap-3">
+            <!-- Avatar + Info -->
+            <div class="poster text-center">
+                <img src="@Url.Content("~/images/UserPageAvatar.png")" class="avatar mb-2" alt="User avatar" />
+                <h2>@Model.FullName</h2>
+                <p>@Model.Email</p>
+                
+                <div class="poster">
+                    <button class="btn btn-warning w-100 mb-2" onclick="loadContent('/UserPage/ChangePasswordForm')">
+                        Change Password
+                    </button>
+            </div>
+
+         </div>
+            <div class="poster text-center">
+            <h3>Saved recipes</h3>
+                @foreach (var recipe in Model.SavedRecipes)
+                {
+                    <button class="btn btn-outline-primary w-100 text-start mb-2"
+                            onclick="loadContent('/UserPage/RecipeDetails/@recipe.RecipeId')">
+                        @recipe.RecipeName
+                    </button>
+                }
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN (8/12) -->
+        <div class="col-md-8">
+            <div class="poster p-3 shadow-sm" id="dynamicContent">
+                <h5>Select an option from the left</h5>
+            </div>
+
+            <!-- Spinner -->
+            <div id="loadingSpinner" class="text-center mt-3" style="display:none;">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+
+            <!-- Error -->
+            <div id="errorMessage" class="alert alert-danger mt-3" style="display:none;">
+                Something went wrong while loading content.
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Handling the loading spinner and error messages -->
+@section Scripts {
+    <script>
+        function loadContent(url) {
+            const content = document.getElementById("dynamicContent");
+            const spinner = document.getElementById("loadingSpinner");
+            const error = document.getElementById("errorMessage");
+
+            content.style.display = "none";
+            spinner.style.display = "block";
+            error.style.display = "none";
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) throw new Error("Network error");
+                    return response.text();
+                })
+                .then(html => {
+                    content.innerHTML = html;
+                    content.style.display = "block";
+                    spinner.style.display = "none";
+                })
+                .catch(err => {
+                    console.error("Error loading content:", err);
+                    spinner.style.display = "none";
+                    error.style.display = "block";
+                });
+        }
+    </script>
+}
+
+

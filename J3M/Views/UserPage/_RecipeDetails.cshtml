@@ -1,0 +1,19 @@
+﻿@using J3M.DTOs
+@*Partial view that is shown in UserPage*@
+
+
+@model RecipeDto
+
+<h5>@Model.RecipeName (@Model.PrepTimeMinutes min)</h5>
+<p>@Model.Description</p>
+@if (!string.IsNullOrEmpty(Model.ImageUrl))
+{
+    <img src="@Model.ImageUrl" class="img-fluid mb-2" />
+}
+<p><strong>Diets:</strong> @string.Join(", ", Model.Diets)</p>
+<ul>
+    @foreach (var ingredient in Model.Ingredients)
+    {
+        <li>@ingredient.Measurement @ingredient.IngredientName</li>
+    }
+</ul>
