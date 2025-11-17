@@ -1,20 +1,99 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@section Scripts{
+    <script src="~/js/dietCarousel.js"></script>
+}
 
 <div>
-    <h1 class="display-4">Welcome to J3M</h1>
-    <div class="poster">
-       @* make  3 column *@
-        <h3>
-            Sorry I forgot to create a new branch😭
-        </h3>
-        <p>Lorem Ipsum </p>
+    <h1 class="display-4 mb-5">Welcome to J3M</h1>
+
+   
+    <div class="container">
+        @* Introduction poster *@
+        <div class="row poster mb-5 p-3">
+            @* Image for introduction poster *@
+            <div class="col-3 p-0">
+                <img src="~/images/General/marisol-benitez-QvkAQTNj4zk-unsplash-Vegetables.jpg" 
+                    alt="Image of vegetables" 
+                    class="rounded object-fit-cover h-100 w-100" style="display:block;"/>
+            </div>  
+
+            @* Text *@
+            <div class="col">
+                <h3 class="display-4 mb-5">
+                    <strong>J3M</strong> — your smarter way to plan meals
+                </h3>
+                <p class="h4">
+                    Discover recipes, explore ingredients, and create weekly meal plans tailored to your needs. Simple, organized, and designed for everyday life.
+                </p>
+                <br />
+                <partial name="_RegisterButton" />
+            </div>                    
+        </div>
+
+        @* Diets Carousel *@
+        <div class="poster row mb-5">
+            @* Text *@
+            <div class="col-md-4 py-5">
+                <h3 class="pt-5 ps-3">Recipes by <strong>Diets</strong></h3>
+            </div>
+            @* Carousel with Images *@
+            <div class="col d-flex align-items-center justify-content-center rounded-pill px-3 py-3">
+                <!-- Prev arrow -->
+                <button class="btn btn-link text-dark fs-3 px-2 m-0 diet-prev" type="button">
+                    &lsaquo;
+                </button>
+
+                <!-- Track container -->
+                <div class="flex-grow-1 overflow-hidden px-2">
+                    <div class="diet-track d-flex align-items-center">
+                        <!-- One image = one “slide” -->
+                        <a href="#" class="diet-link">
+                            <img src="~/images/Diet/caroline-green-Pqt1yIF-Fw0-unsplash-Vegan.jpg" class="diet-slide" alt="Diet Vegan" />
+                            <span class="diet-label">Vegan</span>
+                        </a>
+                        <a href="#" class="diet-link">
+                            <img src="~/images/Diet/cloris-ying-rmdo8r9iGfw-unsplash-Pescetarian.jpg" class="diet-slide" alt="Diet Pescetarian" />
+                            <span class="diet-label">Pescetarian</span>
+                        </a>
+                        <a href="#" class="diet-link">
+                            <img src="~/images/Diet/kim-daniels-DdB-4uOJNVA-unsplash-Paleo.jpg" class="diet-slide" alt="Diet Paleo" />
+                            <span class="diet-label">Paleo</span>
+                        </a>
+                        <a href="#" class="diet-link">
+                            <img src="~/images/Diet/nadine-primeau-n4RrgczkLJM-unsplash-Keto.jpg" class="diet-slide" alt="Diet Keto" />
+                            <span class="diet-label">Keto</span>
+                        </a>
+                        <a href="#" class="diet-link">
+                            <img src="~/images/Diet/odiseo-castrejon-1SPu0KT-Ejg-unsplash-Vegetarian.jpg" class="diet-slide" alt="Diet Vegetarian" />
+                            <span class="diet-label">Vegetarian</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Next arrow -->
+                <button class="btn btn-link text-dark fs-3 px-2 m-0 diet-next" type="button">
+                    &rsaquo;
+                </button>
+            </div>
+        </div>
+
+        @* Register Now *@
+        <div class ="poster row mb-5 p-3">
+            <div class="col"></strong>
+                <h3 class="display-6 mb-4"> <strong>Plan smarter — join J3M for free</strong></h3>
+                <p class="h5">
+                    Create your account and start exploring <br />
+                    <br /> Discover J3M and begin planning your meals
+                </p>
+            </div>
+            <div class="col-md-4 p-lg-5 my-5">
+                <partial name="_RegisterButton" />
+           </div>
+            
+        </div>
+        
     </div>
-
-    <div>2 columns------Diets carousel</div>
-
-    @* Make it into PartialView Button*@
-    <div>Register Now</div> 
 
 </div>
