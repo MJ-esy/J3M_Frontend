@@ -1,6 +1,6 @@
-using System.Diagnostics;
 using J3M.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace J3M.Controllers
 {
@@ -18,7 +18,7 @@ namespace J3M.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult AboutUs()
         {
             return View();
         }

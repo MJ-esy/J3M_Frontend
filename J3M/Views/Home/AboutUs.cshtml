@@ -1,0 +1,68 @@
+﻿@{
+    ViewData["Title"] = "About Us";
+}
+<h1 class="display-4 mb-5">@ViewData["Title"]</h1>
+
+@* Introduction to our mission*@
+<div class="mb-5 p-3" style="background-color:#2F91F7; border-radius: 1.5rem;">
+    <h3 class="mb-4 display-6" style="font-weight:700;">
+        Welcome to J3M — your smarter way to plan meals
+        </h3>
+    <p class="h5">
+        ☀️ Our mission is to help people feel inspired and supported in their everyday cooking.<br /><br />
+        🌻 We aim to simplify meal planning, make diets easier to follow, 
+        and turn food exploration into something effortless and enjoyable.        
+    </p>
+</div>
+
+
+    @* Complex to easy: simple images & texts *@
+    <div class="mb-5 mx-1 p-4 " style="background-color: #000; border-radius: 1.5rem;">
+       
+            <h2 class="text-center" style="color:#FFF5F5;">Cooking goes from this</h2>
+            <div class="row g-3 w-100 h-50 mb-3">
+                <div class="col">
+                    <img src="~/images/General/messyFridge.jpg" alt="Compact, messy fridge"
+                         class="object-fit-cover h-100 w-100" />
+                </div>
+                <div class="col">
+                    <img src="~/images/General/sydney-moore-Zlra7juYERk-unsplash-lookIntoFridge.jpg" alt="Looking into the fridge"
+                         class="object-fit-cover h-100 w-100" />
+                </div>
+                
+            </div>
+
+            <h2 class="text-center" style="color:#FFF5F5; text-shadow: 2px 2px 4px #2F91F7">TO THIS</h2>
+            <div class="row g-3 w-100 h-50 mb-3">
+                 <div class="col" style="box-shadow: 0 0 4px #FFF5F5">
+                    <img src="~/images/General/katie-smith-uQs1802D0CQ-unsplash-Ingredients.CuttingBoard.jpg" alt="Ingredient on cutting board"
+                         class="object-fit-cover h-100 w-100" />
+                </div>
+
+                <div class="col" style="box-shadow: 0 0 4px #FFF5F5">
+                    <img src="~/images/General/leonardo-cirimbelli-7NrDgQ14bO0-unsplash-WarmMeal.jpg" alt="Warm meal in a bowl"
+                         class="object-fit-cover h-100 w-100" />
+                </div>
+            </div>
+            
+            <div class="d-flex flex-column align-items-center text-center w-100 mt-3 p-2">
+                <h3 class="display-6 text-center" style="text-shadow: 2px 2px 4px #2F91F7; color: #FFB8B7;">
+                        Simple Easy Reliable</h3>
+                <partial name="_RegisterButton"/>
+            </div>
+    </div>
+
+    @* Register Now *@
+<div class="container">
+    <div class="poster row mb-5 p-3">
+        <div class="col p-md-5">
+            <p class="h4 mb-3">
+                Discover recipes, explore ingredients, and build weekly meal plans tailored to your dietary needs.                
+            </p>
+            <p>J3M helps you stay organized with clear categories, smart filtering, and a smooth, intuitive interface.</p>
+        </div>
+        <div class="col-md-4 p-lg-5 my-5">
+            <partial name="_RegisterButton" />
+        </div>
+    </div>
+</div>
