@@ -65,7 +65,8 @@ h1{
 
 .nav-item:hover {
     animation: shake 0.5s ease-in-out;
-    text-shadow: 2px 2px 4px #FFF5F5;
+    text-shadow: 3px 3px 6px #2F91F7;
+
 }
 
 .navbar-brand:hover{
@@ -81,3 +82,73 @@ h1{
     100%{transform:rotate(0deg);}
 }
 /*---------------------------------------------------------------------------------------------*/
+
+/*------------Diet carousel---------------*/
+
+.diet-track {
+    display: flex;
+    gap: 16px;
+    justify-content: center; /* keep images centered */
+    align-items: center;
+}
+
+/* inactive images */
+.diet-slide {
+    width: 70px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 12px;
+    opacity: 0.5;
+    transform: scale(0.9);
+    transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+    /* active image = bigger + clear */
+    .diet-slide.active {
+        width: 110px;
+        height: 150px;
+        opacity: 1;
+        transform: scale(1.1);
+    }
+
+
+/* parent wrapper */
+.diet-link {
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* label styles */
+.diet-label {
+    margin-top: 0.4rem;
+    text-align: center;
+    text-decoration: none;
+    color: #000;
+    opacity: 0.5;
+    transition: opacity 0.25s ease;
+}
+
+/* show label for active slide */
+.diet-link.active .diet-label {
+    opacity: 1;
+    font-weight: 600;
+}
+
+
+@media (min-width: 768px) {
+    .diet-slide {
+        width: 90px;
+        height: 130px;
+    }
+
+        .diet-slide.active {
+            width: 140px;
+            height: 190px;
+        }
+}
+
+
