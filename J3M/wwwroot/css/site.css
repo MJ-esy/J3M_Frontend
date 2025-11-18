@@ -41,6 +41,16 @@ h1{
     margin-bottom: 1rem;
 }
 
+.bgWhiteButton {
+    background-color: #FFF5F5;
+    color: #000;
+}
+
+.bgWhiteButton:hover{
+    background-color:  #FFB8B7;
+    font-weight:700;
+}
+
 /*--------------Navigation bar related------------------*/
 
 /* Logo sizing */
