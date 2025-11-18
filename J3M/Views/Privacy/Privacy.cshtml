@@ -1,4 +1,5 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Privacy";
 }
 <h1 class="display-4 mb-5">@ViewData["Title"]</h1>
@@ -13,5 +14,97 @@
     </p>
 </div>
 
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-E6HMVBYXVC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
+        gtag('config', 'G-E6HMVBYXVC');
+    </script>
+
+    <h1 class="display-4 mb-5">My Page</h1>
+    <meta name="description" content="Verified users profilepage where you get your saved recipes and change password.">
+</head>
+
+<div class="container mt-4">
+    <div class="row">
+        <!-- LEFT COLUMN (4/12) -->
+        <div class="col-md-4 d-flex flex-column gap-3">
+            <div class="poster text-center">
+
+
+                <div class="poster">
+                    <button class="btn btn-warning w-100 mb-2" onclick="loadContent('/Privacy/EnglishPrivacy')">
+                        English
+                    </button>
+                </div>
+                <div class="poster">
+                    <button class="btn btn-warning w-100 mb-2" onclick="loadContent('/Privacy/SwedishPrivacy')">
+                        Svenska
+                    </button>
+                </div>
+
+            </div>
+            
+        </div>
+
+        <!-- RIGHT COLUMN (8/12) -->
+        <div class="col-md-8">
+            <div class="poster p-3 shadow-sm" id="dynamicContent">
+                <h5>Select an option from the left</h5>
+            </div>
+
+            <!-- Spinner -->
+            <div id="loadingSpinner" class="text-center mt-3" style="display:none;">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+
+            <!-- Error -->
+            <div id="errorMessage" class="alert alert-danger mt-3" style="display:none;">
+                Something went wrong while loading content.
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Handling the loading spinner and error messages -->
+@section Scripts {
+    <script>
+        function loadContent(url) {
+            const content = document.getElementById("dynamicContent");
+            const spinner = document.getElementById("loadingSpinner");
+            const error = document.getElementById("errorMessage");
+
+            content.style.display = "none";
+            spinner.style.display = "block";
+            error.style.display = "none";
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) throw new Error("Network error");
+                    return response.text();
+                })
+                .then(html => {
+                    content.innerHTML = html;
+                    content.style.display = "block";
+                    spinner.style.display = "none";
+                })
+                .catch(err => {
+                    console.error("Error loading content:", err);
+                    spinner.style.display = "none";
+                    error.style.display = "block";
+                });
+        }
+
+        // 👉 Load English partial by default when page loads
+        document.addEventListener("DOMContentLoaded", function () {
+            loadContent('/Privacy/EnglishPrivacy');
+        });
+    </script>
+}
 
