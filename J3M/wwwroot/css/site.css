@@ -240,4 +240,11 @@ h1{
     .cookie-btn:hover {
         background-color: #e85c50;
     }
+
+.lang-btn.active {
+    background-color: #2F91F7; /* your brand blue */
+    color: #fff;
+    font-weight: bold;
+}
+
 /*---------End cookie consent banner -----------*/

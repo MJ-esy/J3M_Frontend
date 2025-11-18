@@ -4,8 +4,11 @@ namespace J3M.Controllers
 {
     public class PrivacyController : Controller
     {
-        
-            public IActionResult EnglishPrivacy()
+        public IActionResult Index()
+        {
+            return View();
+        }
+        public IActionResult EnglishPrivacy()
             {
                 return PartialView("_EnglishPrivacy");
             }
