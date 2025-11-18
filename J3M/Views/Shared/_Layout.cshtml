@@ -30,6 +30,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="AboutUs">About Us</a>
                         </li>
+                        
                     </ul>
                 </div>
             </div>
@@ -44,11 +45,29 @@
     <footer class="footer text-muted">
         <div class="container">
             &copy; 2025 - J3M - <a asp-area="" asp-controller="Home" asp-action="AboutUs">About Us</a>
+            <a asp-area="" asp-controller="Privacy" asp-action="Index">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    
+    <div id="cookie-banner" class="cookie-banner">
+        <p>
+            We use cookies to improve your experience, personalize content, and analyze traffic. By continuing, you accept our <a href="/privacy" class="cookie-link">cookie policy</a>.
+        </p>
+        <button id="accept-cookies" class="cookie-btn">Got it!</button>
+    </div>
+    <script>
+        document.getElementById("accept-cookies").addEventListener("click", function () {
+          document.getElementById("cookie-banner").style.display = "none";
+          localStorage.setItem("cookiesAccepted", "true");
+        });
+
+        if (localStorage.getItem("cookiesAccepted") === "true") {
+          document.getElementById("cookie-banner").style.display = "none";
+        }
+    </script>
 </body>
 </html>

@@ -196,3 +196,55 @@ h1{
         background-color: #000;
         color: #FFB8B7;
     }
+/*----- Cookie Consent Banner----*/
+.cookie-banner {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    background-color: #FFF5F5;
+    color: #333;
+    border: 2px solid #FFB6B6;
+    border-radius: 12px;
+    padding: 16px 24px;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+}
+
+    .cookie-banner p {
+        margin: 0;
+        font-size: 16px;
+        flex: 1;
+    }
+
+.cookie-link {
+    color: #FF6F61;
+    text-decoration: underline;
+}
+
+.cookie-btn {
+    background-color: #FF6F61;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+    .cookie-btn:hover {
+        background-color: #e85c50;
+    }
+
+.lang-btn.active {
+    background-color: #2F91F7; /* your brand blue */
+    color: #fff;
+    font-weight: bold;
+}
+
+/*---------End cookie consent banner -----------*/

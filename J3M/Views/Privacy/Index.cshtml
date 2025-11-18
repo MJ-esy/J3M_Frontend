@@ -1,0 +1,83 @@
+﻿@{
+    ViewData["Title"] = "Privacy";
+}
+<h1 class="display-4 mb-5">@ViewData["Title"]</h1>
+
+<!-- Intro box -->
+<div class="mb-5 p-3" style="background-color:#2F91F7; border-radius: 1.5rem;">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+        <h3 class="mb-3 mb-md-0 display-6" style="font-weight:700;">
+            At J3M, we care about your privacy
+        </h3>
+        <!-- Buttons aligned right on large screens, stacked on small -->
+        <div class="d-flex gap-2">
+            <button id="btnEnglish" class="btn btn-warning lang-btn"
+                    onclick="loadContent('/Privacy/EnglishPrivacy', this)">
+                English
+            </button>
+            <button id="btnSwedish" class="btn btn-warning lang-btn"
+                    onclick="loadContent('/Privacy/SwedishPrivacy', this)">
+                Svenska
+            </button>
+        </div>
+    </div>
+    <p class="h5 mt-3">
+        This page explains how we collect, use, and protect your personal data in accordance with the EU General Data Protection Regulation (GDPR) and Swedish law.
+    </p>
+</div>
+
+<!-- Content box with same width and styling -->
+<div class="mb-5 p-3" style="background-color:#FFF5F5; border-radius: 1.5rem;">
+    <div id="dynamicContent">
+        <h5>Select a language above</h5>
+    </div>
+
+    <!-- Spinner -->
+    <div id="loadingSpinner" class="text-center mt-3" style="display:none;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <!-- Error -->
+    <div id="errorMessage" class="alert alert-danger mt-3" style="display:none;">
+        Something went wrong while loading content.
+    </div>
+</div>
+
+<!--Handling the loading spinner and error messages -->
+@section Scripts {
+    <script>
+        function loadContent(url) {
+            const content = document.getElementById("dynamicContent");
+            const spinner = document.getElementById("loadingSpinner");
+            const error = document.getElementById("errorMessage");
+
+            content.style.display = "none";
+            spinner.style.display = "block";
+            error.style.display = "none";
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) throw new Error("Network error");
+                    return response.text();
+                })
+                .then(html => {
+                    content.innerHTML = html;
+                    content.style.display = "block";
+                    spinner.style.display = "none";
+                })
+                .catch(err => {
+                    console.error("Error loading content:", err);
+                    spinner.style.display = "none";
+                    error.style.display = "block";
+                });
+        }
+
+        // 👉 Load English partial by default when page loads
+        document.addEventListener("DOMContentLoaded", function () {
+            loadContent('/Privacy/EnglishPrivacy');
+        });
+    </script>
+}
+
