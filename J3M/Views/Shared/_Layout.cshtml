@@ -50,5 +50,22 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    
+    <div id="cookie-banner" class="cookie-banner">
+        <p>
+            We use cookies to improve your experience, personalize content, and analyze traffic. By continuing, you accept our <a href="/privacy" class="cookie-link">cookie policy</a>.
+        </p>
+        <button id="accept-cookies" class="cookie-btn">Got it!</button>
+    </div>
+    <script>
+        document.getElementById("accept-cookies").addEventListener("click", function () {
+          document.getElementById("cookie-banner").style.display = "none";
+          localStorage.setItem("cookiesAccepted", "true");
+        });
+
+        if (localStorage.getItem("cookiesAccepted") === "true") {
+          document.getElementById("cookie-banner").style.display = "none";
+        }
+    </script>
 </body>
 </html>
