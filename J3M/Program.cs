@@ -9,6 +9,15 @@ namespace J3M
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddHttpClient("J3MApi", client =>
+            {
+                client.BaseAddress = new Uri(builder.Configuration["https://localhost:7093/"]); // Replace with your backend API URL
+                //client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            });
+
+            //
+            builder.Services.AddSession();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -23,8 +32,9 @@ namespace J3M
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseSession();
+            //app.UseAuthorization();
 
-            app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
