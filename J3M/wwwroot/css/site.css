@@ -41,6 +41,16 @@ h1{
     margin-bottom: 1rem;
 }
 
+.bgWhiteButton {
+    background-color: #FFF5F5;
+    color: #000;
+}
+
+.bgWhiteButton:hover{
+    background-color:  #FFB8B7;
+    font-weight:700;
+}
+
 /*--------------Navigation bar related------------------*/
 
 /* Logo sizing */
@@ -66,7 +76,7 @@ h1{
 .nav-item:hover {
     animation: shake 0.5s ease-in-out;
     text-shadow: 3px 3px 6px #2F91F7;
-
+    font-weight:900;
 }
 
 .navbar-brand:hover{
@@ -82,6 +92,12 @@ h1{
     100%{transform:rotate(0deg);}
 }
 /*---------------------------------------------------------------------------------------------*/
+
+/*Image Radius*/
+img {
+    border-radius: 1.5rem;
+}
+
 
 /*------------Diet carousel---------------*/
 
@@ -105,6 +121,7 @@ h1{
 
     /* active image = bigger + clear */
     .diet-slide.active {
+        margin:1.5rem;
         width: 110px;
         height: 150px;
         opacity: 1;
