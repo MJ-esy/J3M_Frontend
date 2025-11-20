@@ -11,7 +11,7 @@ namespace J3M
 
             builder.Services.AddHttpClient("J3MApi", client =>
             {
-                client.BaseAddress = new Uri(builder.Configuration["https://localhost:7093/"]); 
+                client.BaseAddress = new Uri("https://localhost:7093/"); 
                 //client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
             });
             //Reads the cookies from the request
