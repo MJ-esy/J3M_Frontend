@@ -41,7 +41,7 @@ namespace J3M.Controllers
             if (!response.IsSuccessStatusCode)
             {
                 //If backend says 400/401 -> invalid credentials
-                ModelState.AddModelError(string.Empty, "Felaktigt användarnamn eller lösenord.");
+                ModelState.AddModelError(string.Empty, "Invalid user name or password.");
                 return View(model);
             }
 
@@ -51,7 +51,7 @@ namespace J3M.Controllers
             //Safety check: backend should always send token + expiry. Guard against null/empty tp avoid null reference issues
             if (loginResponse == null || string.IsNullOrEmpty(loginResponse.Token))
             {
-                ModelState.AddModelError(string.Empty, "Ogiltigt svar från servern.");
+                ModelState.AddModelError(string.Empty, "Invalid response from server.");
                 return View(model);
             }
 
@@ -65,7 +65,7 @@ namespace J3M.Controllers
                 Expires = loginResponse.ExpiresAtUtc.ToLocalTime()
             });
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home"); // change to MyProfile or Dashboard later
         }
 
         // POST: /Account/Logout
