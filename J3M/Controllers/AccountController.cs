@@ -32,7 +32,7 @@ namespace J3M.Controllers
                 return View(model);
 
             //Create HttpClient that points to the backend API
-            var client = _httpClientFactory.CreateClient(   );
+            var client = _httpClientFactory.CreateClient("J3MApi");
 
             // Send login credentials to backend AuthController
             //  Backend-route: [Route("api/[controller]")] + [HttpPost("login")]
