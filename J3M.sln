@@ -5,6 +5,8 @@ VisualStudioVersion = 17.14.36518.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "J3M", "J3M\J3M.csproj", "{14177AC9-905F-4CA1-8315-771CB4D207AA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "J3M.Shared", "J3M.Shared\J3M.Shared.csproj", "{A712088E-9947-895B-84E9-BAC952DFD9D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{14177AC9-905F-4CA1-8315-771CB4D207AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14177AC9-905F-4CA1-8315-771CB4D207AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14177AC9-905F-4CA1-8315-771CB4D207AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A712088E-9947-895B-84E9-BAC952DFD9D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A712088E-9947-895B-84E9-BAC952DFD9D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A712088E-9947-895B-84E9-BAC952DFD9D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A712088E-9947-895B-84E9-BAC952DFD9D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
