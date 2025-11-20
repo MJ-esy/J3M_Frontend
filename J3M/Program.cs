@@ -15,7 +15,9 @@ namespace J3M
                 //client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
             });
 
-            //
+            //Registers the AuthorizedApiClient to be used in the controllers
+            builder.Services.AddScoped<J3M.Services.Http.IAuthorizedApiClient, J3M.Services.Http.AuthorizedApiClient>();
+           
             builder.Services.AddSession();
 
             var app = builder.Build();
