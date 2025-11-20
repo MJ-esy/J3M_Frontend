@@ -11,9 +11,11 @@ namespace J3M
 
             builder.Services.AddHttpClient("J3MApi", client =>
             {
-                client.BaseAddress = new Uri(builder.Configuration["https://localhost:7093/"]); // Replace with your backend API URL
+                client.BaseAddress = new Uri(builder.Configuration["https://localhost:7093/"]); 
                 //client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
             });
+            //Reads the cookies from the request
+            builder.Services.AddHttpContextAccessor();
 
             //Registers the AuthorizedApiClient to be used in the controllers
             builder.Services.AddScoped<J3M.Services.Http.IAuthorizedApiClient, J3M.Services.Http.AuthorizedApiClient>();
