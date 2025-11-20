@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace J3M.Shared.DTOs.Users.ProfilesDtos;
+namespace J3m_BE.DTOs.Users.ProfileDtos;
 
 public class UserProfileDto
 {
@@ -21,4 +16,3 @@ public class UserProfileDto
     [StringLength(50)]
     public string UserName { get; set; } = string.Empty;
 }
-
