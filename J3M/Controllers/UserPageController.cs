@@ -1,6 +1,7 @@
 ﻿using J3M.DTOs;
 using J3M.Models;
 using J3M.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 using System.Text;
@@ -10,51 +11,32 @@ namespace J3m_FE.Controllers
 {
     public class UserPageController : Controller
     {
-        public IActionResult Index()
+        [Authorize]
+        public class UserPageController : Controller
         {
-            // --- MOCK BACKEND DATA ---
+            private readonly IUserRecipeService _userRecipeService;
 
-            // Fake user from backend
-            var mockUser = new
+            public UserPageController(IUserRecipeService userRecipeService)
             {
-                UserId = 42,
-                FullName = "John Smith",
-                Email = "Test@test.com"
-            };
+                _userRecipeService = userRecipeService;
+            }
 
-            // Fake recipe summaries (matching RecipeSummaryDto)
-            var mockSavedRecipes = new List<RecipeSummaryCard>
+            [HttpGet]
+            public async Task<IActionResult> Dashboard()
             {
-                new RecipeSummaryCard
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                var favorites = await _userRecipeService.GetFavoriteRecipesAsync(userId);
+
+                var vm = new UserProfileViewModel
                 {
-                    RecipeId = 1,
-                    RecipeName = "Chicken Alfredo",
-                    IngredientCount = 7,
-                    DietCount = 1,
-                    PrepTimeMinutes = 25
-                },
-                new RecipeSummaryCard
-                {
-                    RecipeId = 2,
-                    RecipeName = "Greek Salad",
-                    IngredientCount = 6,
-                    DietCount = 2,
-                    PrepTimeMinutes = 10
-                }
-            };
+                    FullName = User.Identity?.Name ?? "Unknown",
+                    Email = User.FindFirstValue(ClaimTypes.Email) ?? "",
+                    SavedRecipes = favorites.ToList()
+                };
 
-            // Build final view model
-            var model = new UserProfileViewModel
-            {
-                UserId = mockUser.UserId,
-                FullName = mockUser.FullName,
-                Email = mockUser.Email, // backend saknar email
-                AvatarUrl = "/images/placeholder-avatar.png",
-                WeeklyMealPlannerUrl = "/MealPlanner/Index",
-                SavedRecipes = mockSavedRecipes
-            };
-
-            return View(model);
+                return View(vm);
+            }
         }
     }
 }
