@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\J3m_BE\J3M.Shared\J3M.Shared.csproj" />
+    <ProjectReference Include="..\J3M.Shared\J3M.Shared.csproj" />
   </ItemGroup>
 
 </Project>
