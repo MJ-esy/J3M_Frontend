@@ -13,6 +13,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@600&family=Lexend+Mega:wght@100..900&display=swap" rel="stylesheet">
 </head>
 <body>
+    @if (Context.Request.Cookies["AuthToken"] != null)
+    {
+        <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-link">Logga ut</button>
+        </form>
+    }
+    else
+    {
+        <a asp-controller="Account" asp-action="Login" class="btn btn-link">Logga in</a>
+    }
+
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-black border-2 my-3 mx-5 p-2 rounded-pill" >
             <div class="container-fluid" style="padding: 0.5rem 2rem">
