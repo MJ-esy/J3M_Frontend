@@ -1,0 +1,25 @@
+﻿@model List<J3m_BE.DTOs.Recipes.RecipeDetailDto>
+
+<div class="card mt-3">
+    <div class="card-header">
+        <h4>Matching Recipes</h4>
+    </div>
+    <div class="card-body">
+        @if (!Model.Any())
+        {
+            <p>No recipes match your ingredients yet.</p>
+        }
+        else
+        {
+            <ul class="list-group">
+                @foreach (var recipe in Model)
+                {
+                    <li class="list-group-item">
+                        <strong>@recipe.RecipeName</strong><br />
+                        @recipe.Description
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+</div>

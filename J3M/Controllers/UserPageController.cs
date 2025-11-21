@@ -2,15 +2,18 @@
 using J3M.Services.Http;
 using J3m_BE.DTOs.Recipes;
 using J3m_BE.DTOs.Users.ProfileDtos;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 public class UserPageController : Controller
 {
     private readonly IAuthorizedApiClient _authorizedApiClient;
 
+
     public UserPageController(IAuthorizedApiClient authorizedApiClient)
     {
         _authorizedApiClient = authorizedApiClient;
+      
     }
 
     [HttpGet]
@@ -41,5 +44,44 @@ public class UserPageController : Controller
         };
 
         return View(vm);
+    }
+    [HttpGet]
+    public IActionResult Ingredients()
+    {
+        // Start with an empty list
+        var ingredients = new List<string>();
+        return PartialView("_Ingredients", ingredients);
+    }
+
+    [HttpPost]
+    public IActionResult AddIngredient(string ingredient, List<string> currentIngredients)
+    {
+        if (!string.IsNullOrWhiteSpace(ingredient))
+        {
+            currentIngredients.Add(ingredient);
+        }
+        return PartialView("_Ingredients", currentIngredients);
+    }
+
+    [HttpPost]
+    public IActionResult RemoveIngredient(string ingredient, List<string> currentIngredients)
+    {
+        currentIngredients.Remove(ingredient);
+        return PartialView("_Ingredients", currentIngredients);
+    }
+    [HttpPost]
+    [HttpPost]
+    public async Task<IActionResult> FilterRecipes(List<string> userIngredients)
+    {
+        var client = _authorizedApiClient.CreateClient();
+
+        var response = await client.PostAsJsonAsync("api/Recipes/filter", userIngredients);
+        if (!response.IsSuccessStatusCode)
+        {
+            return PartialView("_FilteredRecipes", new List<RecipeDetailDto>());
+        }
+
+        var recipes = await response.Content.ReadFromJsonAsync<List<RecipeDetailDto>>();
+        return PartialView("_FilteredRecipes", recipes);
     }
 }

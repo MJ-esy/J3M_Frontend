@@ -1,5 +1,8 @@
 ﻿@using J3M.Models
 @model UserProfileViewModel
+@*Page where the user gets to when Login in and shows user info, saved recipes and where they can add ingredients
+    to their pantry or change their password.*@
+
 
 <head>
     <!-- Google tag (gtag.js) -->
@@ -27,11 +30,15 @@
                 <p>@Model.Email</p>
 
                 <div class="poster">
-                    <button class="btn btn-warning w-100 mb-2"
+                    <button class="btn btn-info w-100 mb-2"
                             onclick="loadContent('@Url.Action("ChangePasswordForm", "UserPage")')">
                         Change Password
                     </button>
                 </div>
+                <button class="btn btn-info w-100 mb-2"
+                        onclick="loadContent('@Url.Action("Ingredients", "UserPage")')">
+                    Ingredients
+                </button>
             </div>
 
             <!-- Saved Recipes -->
