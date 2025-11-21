@@ -1,5 +1,6 @@
 ﻿using J3M.Models;
 using J3M.Services.Http;
+using J3M.Shared.DTOs.Ingredients;
 using J3m_BE.DTOs.Recipes;
 using J3m_BE.DTOs.Users.ProfileDtos;
 using Microsoft.AspNetCore.Authentication;
@@ -46,21 +47,57 @@ public class UserPageController : Controller
         return View(vm);
     }
 
-
-    [HttpGet, HttpPost]
-    public IActionResult AddIngredient(string ingredient, List<string> currentIngredients)
+    [HttpGet]
+    public IActionResult Ingredients()
     {
-        if (!string.IsNullOrWhiteSpace(ingredient))
-            currentIngredients.Add(ingredient);
-
-        return PartialView("_Ingredients", currentIngredients);
+        // Start with an empty list
+        var ingredients = new List<string>();
+        return PartialView("_Ingredient", ingredients);
     }
-    [HttpGet, HttpPost]
-    public IActionResult RemoveIngredient(string ingredient, List<string> currentIngredients)
+    [HttpPost]
+    [IgnoreAntiforgeryToken] // AJAX requests do not send token
+    public IActionResult AddIngredient([FromBody] IngredientRequest request)
     {
-        currentIngredients.Remove(ingredient);
-        return PartialView("_Ingredients", currentIngredients);
+        var list = request.CurrentIngredients ?? new List<string>();
+        if (!string.IsNullOrWhiteSpace(request.Ingredient))
+            list.Add(request.Ingredient);
+
+        return PartialView("_Ingredient", list);
     }
+
+    [HttpPost]
+    [IgnoreAntiforgeryToken]
+    public IActionResult RemoveIngredient([FromBody] IngredientRequest request)
+    {
+        var list = request.CurrentIngredients ?? new List<string>();
+        if (!string.IsNullOrWhiteSpace(request.Ingredient))
+            list.Remove(request.Ingredient);
+
+        return PartialView("_Ingredient", list);
+    }
+
+    //[HttpPost]
+    //public IActionResult AddIngredient([FromBody] IngredientRequest request)
+    //{
+    //    var currentIngredients = request.CurrentIngredients ?? new List<string>();
+
+    //    if (!string.IsNullOrWhiteSpace(request.Ingredient))
+    //        currentIngredients.Add(request.Ingredient);
+
+    //    return PartialView("_Ingredient", currentIngredients);
+    //}
+
+    //[HttpPost]
+    //[IgnoreAntiforgeryToken] // important for AJAX
+    //public IActionResult RemoveIngredient([FromBody] IngredientRequest request)
+    //{
+    //    var list = request.CurrentIngredients ?? new List<string>();
+    //    if (!string.IsNullOrWhiteSpace(request.Ingredient))
+    //        list.Remove(request.Ingredient);
+
+    //    return PartialView("_Ingredient", list);
+    //}
+
 
     [HttpPost]
     public async Task<IActionResult> FilterRecipes(List<string> userIngredients)

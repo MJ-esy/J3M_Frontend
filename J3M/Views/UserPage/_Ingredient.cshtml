@@ -5,10 +5,13 @@
         <h4>My Ingredients</h4>
     </div>
     <div class="card-body">
-        <form id="ingredientForm" method="post" asp-action="AddIngredient" asp-controller="UserPage">
+        <form id="ingredientForm" onsubmit="event.preventDefault(); addIngredient();">
             <div class="input-group mb-3">
-                <input type="text" name="ingredient" class="form-control" placeholder="Enter ingredient" />
-                <input type="hidden" name="currentIngredients" value="@string.Join(",", Model)" />
+                <input type="text" id="newIngredient" class="form-control" placeholder="Enter ingredient" />
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <input type="hidden" name="currentIngredients" value="@Model[i]" />
+                }
                 <button type="submit" class="btn btn-success">Add</button>
             </div>
         </form>
@@ -16,13 +19,13 @@
         <ul class="list-group">
             @foreach (var ing in Model)
             {
-                <li class="list-group-item d-flex justify-content-between align-items-center">
+                <li class="list-group-item d-flex justify-content-between align-items-center"
+                    data-current='@Html.Raw(Json.Serialize(Model))'>
                     @ing
-                    <form method="post" asp-action="RemoveIngredient" asp-controller="UserPage" class="m-0">
-                        <input type="hidden" name="ingredient" value="@ing" />
-                        <input type="hidden" name="currentIngredients" value="@string.Join(",", Model)" />
-                        <button type="submit" class="btn btn-sm btn-danger">Remove</button>
-                    </form>
+                    <button type="button" class="btn btn-sm btn-danger"
+                            onclick="removeIngredient('@ing', this.parentElement.dataset.current)">
+                        Remove
+                    </button>
                 </li>
             }
         </ul>

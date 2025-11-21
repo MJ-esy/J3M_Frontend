@@ -1,47 +1,27 @@
-﻿@using J3M.Models
-@model UserProfileViewModel
-@*Page where the user gets to when Login in and shows user info, saved recipes and where they can add ingredients
-    to their pantry or change their password.*@
-
-
-<head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-E6HMVBYXVC"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-E6HMVBYXVC');
-    </script>
-
-    <meta name="description" content="Verified users profile page where you get your saved recipes and change password.">
-</head>
+﻿@model UserProfileViewModel
 
 <div class="container mt-4">
     <h1 class="display-4 mb-5">My Page</h1>
 
     <div class="row">
-        <!-- LEFT COLUMN (4/12) -->
-        <div class="col-md-4 d-flex flex-column gap-3">
-            <!-- Avatar + Info -->
+        <!-- LEFT COLUMN -->
+        @* <div class="col-md-4 d-flex flex-column gap-3">
             <div class="poster text-center">
                 <img src="@Url.Content("~/images/Avatar.png")" class="avatar mb-2" alt="User avatar" />
                 <h2>@Model.FullName</h2>
                 <p>@Model.Email</p>
 
-                <div class="poster">
-                    <button class="btn btn-info w-100 mb-2"
-                            onclick="loadContent('@Url.Action("ChangePasswordForm", "UserPage")')">
-                        Change Password
-                    </button>
-                </div>
+                <button class="btn btn-info w-100 mb-2"
+                        onclick="loadContent('@Url.Action("ChangePasswordForm", "UserPage")')">
+                    Change Password
+                </button>
+
                 <button class="btn btn-info w-100 mb-2"
                         onclick="loadContent('@Url.Action("Ingredients", "UserPage")')">
                     Ingredients
                 </button>
             </div>
 
-            <!-- Saved Recipes -->
             <div class="poster text-center">
                 <h3>Saved recipes</h3>
                 @foreach (var recipe in Model.SavedRecipes)
@@ -52,22 +32,53 @@
                     </button>
                 }
             </div>
-        </div>
+        </div> *@
 
-        <!-- RIGHT COLUMN (8/12) -->
+        @* <!-- RIGHT COLUMN -->
         <div class="col-md-8">
             <div class="poster p-3 shadow-sm" id="dynamicContent">
                 <h5>Select an option from the left</h5>
             </div>
 
-            <!-- Spinner -->
             <div id="loadingSpinner" class="text-center mt-3" style="display:none;">
                 <div class="spinner-border text-primary" role="status">
                     <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
 
-            <!-- Error -->
+            <div id="errorMessage" class="alert alert-danger mt-3" style="display:none;">
+                Something went wrong while loading content.
+            </div>
+        </div> *@
+        <div class="col-md-4 d-flex flex-column gap-3">
+            <div class="poster text-center">
+                <img src="@Url.Content("~/images/Avatar.png")" class="avatar mb-2" alt="User avatar" />
+                <h2>@Model.FullName</h2>
+                <p>@Model.Email</p>
+
+                <button class="btn btn-info w-100 mb-2"
+                        onclick="loadContent('@Url.Action("ChangePasswordForm", "UserPage")')">
+                    Change Password
+                </button>
+
+                <button class="btn btn-info w-100 mb-2"
+                        onclick="loadContent('@Url.Action("Ingredients", "UserPage")')">
+                    Ingredients
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="poster p-3 shadow-sm" id="dynamicContent">
+                <h5>Select an option from the left</h5>
+            </div>
+
+            <div id="loadingSpinner" class="text-center mt-3" style="display:none;">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+
             <div id="errorMessage" class="alert alert-danger mt-3" style="display:none;">
                 Something went wrong while loading content.
             </div>
@@ -75,21 +86,21 @@
     </div>
 </div>
 
-@section Scripts {
+@* @section Scripts {
     <script>
-        function loadContent(url) {
-            const content = document.getElementById("dynamicContent");
-            const spinner = document.getElementById("loadingSpinner");
-            const error = document.getElementById("errorMessage");
+        const content = document.getElementById("dynamicContent");
+        const spinner = document.getElementById("loadingSpinner");
+        const error = document.getElementById("errorMessage");
 
+        function loadContent(url) {
             content.style.display = "none";
             spinner.style.display = "block";
             error.style.display = "none";
 
-            fetch(url, { credentials: 'include' }) // 👈 ensures cookies/JWT are sent
-                .then(response => {
-                    if (!response.ok) throw new Error("Network error");
-                    return response.text();
+            fetch(url, { credentials: 'include' })
+                .then(res => {
+                    if (!res.ok) throw new Error("Network error");
+                    return res.text();
                 })
                 .then(html => {
                     content.innerHTML = html;
@@ -97,16 +108,13 @@
                     spinner.style.display = "none";
                 })
                 .catch(err => {
-                    console.error("Error loading content:", err);
+                    console.error(err);
                     spinner.style.display = "none";
                     error.style.display = "block";
                 });
+        }
 
-            function postContent(url, data) {
-            const content = document.getElementById("dynamicContent");
-            const spinner = document.getElementById("loadingSpinner");
-            const error = document.getElementById("errorMessage");
-
+        function postContent(url, data) {
             content.style.display = "none";
             spinner.style.display = "block";
             error.style.display = "none";
@@ -133,6 +141,93 @@
             });
         }
 
+        function addIngredient() {
+            const input = document.getElementById("newIngredient");
+            const ingredient = input.value.trim();
+            if (!ingredient) return;
+
+            const currentIngredients = Array.from(document.querySelectorAll('input[name="currentIngredients"]'))
+                .map(i => i.value);
+
+            postContent('@Url.Action("AddIngredient", "UserPage")', { ingredient, currentIngredients });
+            input.value = '';
+        }
+
+        function removeIngredient(ingredient, currentIngredients) {
+            postContent('@Url.Action("RemoveIngredient", "UserPage")', { ingredient, currentIngredients });
         }
     </script>
 }
+ *@
+ <script>
+         const content = document.getElementById("dynamicContent");
+    const spinner = document.getElementById("loadingSpinner");
+    const error = document.getElementById("errorMessage");
+
+    function loadContent(url) {
+        content.style.display = "none";
+        spinner.style.display = "block";
+        error.style.display = "none";
+
+        fetch(url, { credentials: 'include' })
+            .then(res => {
+                if (!res.ok) throw new Error("Network error");
+                return res.text();
+            })
+            .then(html => {
+                content.innerHTML = html;
+                content.style.display = "block";
+                spinner.style.display = "none";
+            })
+            .catch(err => {
+                console.error(err);
+                spinner.style.display = "none";
+                error.style.display = "block";
+            });
+    }
+
+    function postContent(url, data) {
+        content.style.display = "none";
+        spinner.style.display = "block";
+        error.style.display = "none";
+
+        fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+            credentials: 'include'
+        })
+        .then(res => {
+            if (!res.ok) throw new Error("Network error");
+            return res.text();
+        })
+        .then(html => {
+            content.innerHTML = html;
+            content.style.display = "block";
+            spinner.style.display = "none";
+        })
+        .catch(err => {
+            console.error(err);
+            spinner.style.display = "none";
+            error.style.display = "block";
+        });
+    }
+
+    function addIngredient() {
+        const input = document.getElementById("newIngredient");
+        const ingredient = input.value.trim();
+        if (!ingredient) return;
+
+        const currentIngredients = Array.from(document.querySelectorAll('input[name="currentIngredients"]'))
+            .map(i => i.value);
+
+        postContent('@Url.Action("AddIngredient", "UserPage")', { ingredient, currentIngredients });
+        input.value = '';
+    }
+
+    function removeIngredient(ingredient, currentIngredientsJson) {
+    const currentIngredients = JSON.parse(currentIngredientsJson);
+    postContent('@Url.Action("RemoveIngredient", "UserPage")', { ingredient, currentIngredients });
+}
+
+ </script>
