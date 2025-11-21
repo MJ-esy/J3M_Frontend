@@ -1,0 +1,21 @@
+﻿@using J3m_BE.DTOs.Recipes
+
+@model RecipeDetailDto
+
+<h5>@Model.RecipeName (@Model.PrepTimeMinutes min)</h5>
+<p>@Model.Description</p>
+
+@if (!string.IsNullOrEmpty(Model.ImageUrl))
+{
+    <img src="@Model.ImageUrl" class="img-fluid mb-2" alt="@Model.RecipeName" />
+}
+
+<p><strong>Diets:</strong> @string.Join(", ", Model.Diets)</p>
+
+<h6>Ingredients</h6>
+<ul>
+    @foreach (var ingredient in Model.Ingredients)
+    {
+        <li>@ingredient.Measurement - @ingredient.IngredientName</li>
+    }
+</ul>
