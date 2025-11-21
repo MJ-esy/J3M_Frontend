@@ -9,16 +9,18 @@ namespace J3M
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            // Register HttpClientFactory
-            builder.Services.AddHttpClient();
-
-            // Optionally configure a named client for your backend API
-            builder.Services.AddHttpClient("BackendApi", client =>
+            builder.Services.AddHttpClient("J3MApi", client =>
             {
-                client.BaseAddress = new Uri("https://localhost:7165/"); // backend API base URL
-                client.DefaultRequestHeaders.Accept.Add(
-                    new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                client.BaseAddress = new Uri("https://localhost:7093/"); 
+                //client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
             });
+            //Reads the cookies from the request
+            builder.Services.AddHttpContextAccessor();
+
+            //Registers the AuthorizedApiClient to be used in the controllers
+            builder.Services.AddScoped<J3M.Services.Http.IAuthorizedApiClient, J3M.Services.Http.AuthorizedApiClient>();
+           
+            builder.Services.AddSession();
 
             var app = builder.Build();
 
@@ -33,9 +35,9 @@ namespace J3M
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseSession();
+            //app.UseAuthorization();
 
-            // Make sure authentication is added before authorization if you use [Authorize]
-            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
