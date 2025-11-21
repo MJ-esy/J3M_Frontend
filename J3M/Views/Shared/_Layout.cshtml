@@ -35,10 +35,17 @@
                   
                     @if (Context.Request.Cookies["AuthToken"] != null)
                     {
+                        <form class="btn bgWhiteButton" asp-controller="UserPage" asp-action="Index" method="post">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn bgWhiteButton">My Page</button>
+                        </form>
+
                         <form class="btn bgWhiteButton" asp-controller="Account" asp-action="Logout" method="post">
                             @Html.AntiForgeryToken()
                             <button type="submit" class="btn bgWhiteButton">Logout</button>
                         </form>
+
+                      
                     }
                     else
                     {

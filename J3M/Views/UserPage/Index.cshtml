@@ -101,6 +101,38 @@
                     spinner.style.display = "none";
                     error.style.display = "block";
                 });
+
+            function postContent(url, data) {
+            const content = document.getElementById("dynamicContent");
+            const spinner = document.getElementById("loadingSpinner");
+            const error = document.getElementById("errorMessage");
+
+            content.style.display = "none";
+            spinner.style.display = "block";
+            error.style.display = "none";
+
+            fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+                credentials: 'include'
+            })
+            .then(res => {
+                if (!res.ok) throw new Error("Network error");
+                return res.text();
+            })
+            .then(html => {
+                content.innerHTML = html;
+                content.style.display = "block";
+                spinner.style.display = "none";
+            })
+            .catch(err => {
+                console.error(err);
+                spinner.style.display = "none";
+                error.style.display = "block";
+            });
+        }
+
         }
     </script>
 }

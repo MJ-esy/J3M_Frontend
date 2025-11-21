@@ -45,31 +45,46 @@ public class UserPageController : Controller
 
         return View(vm);
     }
-    [HttpGet]
-    public IActionResult Ingredients()
-    {
-        // Start with an empty list
-        var ingredients = new List<string>();
-        return PartialView("_Ingredients", ingredients);
-    }
+    //[HttpGet]
+    //public IActionResult Ingredients()
+    //{
+    //    // Start with an empty list
+    //    var ingredients = new List<string>();
+    //    return PartialView("_Ingredients", ingredients);
+    //}
 
-    [HttpPost]
+    //[HttpPost]
+    //public IActionResult AddIngredient(string ingredient, List<string> currentIngredients)
+    //{
+    //    if (!string.IsNullOrWhiteSpace(ingredient))
+    //    {
+    //        currentIngredients.Add(ingredient);
+    //    }
+    //    return PartialView("_Ingredients", currentIngredients);
+    //}
+
+    //[HttpPost]
+    //public IActionResult RemoveIngredient(string ingredient, List<string> currentIngredients)
+    //{
+    //    currentIngredients.Remove(ingredient);
+    //    return PartialView("_Ingredients", currentIngredients);
+    //}
+
+    [HttpGet, HttpPost]
     public IActionResult AddIngredient(string ingredient, List<string> currentIngredients)
     {
         if (!string.IsNullOrWhiteSpace(ingredient))
-        {
             currentIngredients.Add(ingredient);
-        }
+
         return PartialView("_Ingredients", currentIngredients);
     }
-
-    [HttpPost]
+    [HttpGet, HttpPost]
     public IActionResult RemoveIngredient(string ingredient, List<string> currentIngredients)
     {
         currentIngredients.Remove(ingredient);
         return PartialView("_Ingredients", currentIngredients);
     }
-    [HttpPost]
+
     [HttpPost]
     public async Task<IActionResult> FilterRecipes(List<string> userIngredients)
     {
