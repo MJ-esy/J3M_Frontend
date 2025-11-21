@@ -25,6 +25,7 @@ namespace J3M.Controllers
 
         // POST: /Account/Login
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginDto model)
         {
             //Let MVC handle client-side & server-side validation run
@@ -66,6 +67,29 @@ namespace J3M.Controllers
             });
 
             return RedirectToAction("Index", "Home"); // change to MyProfile or Dashboard later
+        }
+
+
+        //
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterDto model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var client = _httpClientFactory.CreateClient("J3MApi");
+
+            // Send registration data to backend AuthController
+            // Backend-route: [Route("api/[controller]")] + [HttpPost("register")]
+            var response = await client.PostAsJsonAsync("api/Auth/register", model);
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                ModelState.AddModelError(string.Empty, $"Registration failed: {errorContent}");
+                return View(model);
+            }
+            return RedirectToAction("Login", "Account");
         }
 
         // POST: /Account/Logout
