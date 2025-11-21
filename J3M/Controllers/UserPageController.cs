@@ -1,50 +1,45 @@
 ﻿using J3M.Models;
-using J3M.Services.Interface;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
+using J3M.Services.Http;
 using J3m_BE.DTOs.Recipes;
+using J3m_BE.DTOs.Users.ProfileDtos;
+using Microsoft.AspNetCore.Mvc;
 
-namespace J3m_FE.Controllers
+public class UserPageController : Controller
 {
-    [Authorize]
-    public class UserPageController : Controller
+    private readonly IAuthorizedApiClient _authorizedApiClient;
+
+    public UserPageController(IAuthorizedApiClient authorizedApiClient)
     {
-        private readonly HttpClient _httpClient;
+        _authorizedApiClient = authorizedApiClient;
+    }
 
-        public UserPageController(IHttpClientFactory httpClientFactory)
+    [HttpGet]
+    public async Task<IActionResult> Index()
+    {
+        var client = _authorizedApiClient.CreateClient();
+
+        var profileResponse = await client.GetAsync("api/Profile/me");
+        if (!profileResponse.IsSuccessStatusCode)
         {
-            _httpClient = httpClientFactory.CreateClient("BackendApi");
+            // If backend rejects JWT, redirect to login
+            return RedirectToAction("Login", "Account");
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Index()
+        var profile = await profileResponse.Content.ReadFromJsonAsync<UserProfileDto>();
+
+        var favoritesResponse = await client.GetAsync("api/UserRecipes/favorites");
+        var favorites = favoritesResponse.IsSuccessStatusCode
+            ? await favoritesResponse.Content.ReadFromJsonAsync<List<RecipeDetailDto>>()
+            : new List<RecipeDetailDto>();
+
+        var vm = new UserProfileViewModel
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            FullName = profile?.DisplayName ?? User.Identity?.Name ?? "Unknown",
+            Email = profile?.Email ?? "",
+            SavedRecipes = favorites,
+            Profile = profile
+        };
 
-            var response = await _httpClient.GetAsync("api/UserRecipes/favorites");
-            response.EnsureSuccessStatusCode();
-
-            var favorites = await response.Content.ReadFromJsonAsync<List<RecipeDetailDto>>();
-
-            var vm = new UserProfileViewModel
-            {
-                FullName = User.Identity?.Name ?? "Unknown",
-                Email = User.FindFirstValue(ClaimTypes.Email) ?? "",
-                SavedRecipes = favorites ?? new List<RecipeDetailDto>()
-            };
-
-            return View(vm);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> RecipeDetails(int id)
-        {
-            var response = await _httpClient.GetAsync($"api/UserRecipes/{id}");
-            if (!response.IsSuccessStatusCode) return NotFound();
-
-            var recipe = await response.Content.ReadFromJsonAsync<RecipeDetailDto>();
-            return PartialView("_RecipeDetails", recipe);
-        }
+        return View(vm);
     }
 }

@@ -36,8 +36,12 @@ namespace J3M
 
             app.UseRouting();
             app.UseSession();
-            //app.UseAuthorization();
 
+           
+
+            builder.Services.AddAuthorization();
+            
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

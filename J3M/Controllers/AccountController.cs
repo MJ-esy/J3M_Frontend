@@ -66,7 +66,8 @@ namespace J3M.Controllers
                 Expires = loginResponse.ExpiresAtUtc.ToLocalTime()
             });
 
-            return RedirectToAction("Index", "Home"); // change to MyProfile or Dashboard later
+            return RedirectToAction("Index", "UserPage"); // Redirect to Personal userpage
+   
         }
 
 

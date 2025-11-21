@@ -1,6 +1,6 @@
 ﻿@using J3M.Models
-
 @model UserProfileViewModel
+
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-E6HMVBYXVC"></script>
@@ -8,15 +8,15 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', 'G-E6HMVBYXVC');
     </script>
 
-    <h1 class="display-4 mb-5">My Page</h1>
-    <meta name="description" content="Verified users profilepage where you get your saved recipes and change password.">
+    <meta name="description" content="Verified users profile page where you get your saved recipes and change password.">
 </head>
 
 <div class="container mt-4">
+    <h1 class="display-4 mb-5">My Page</h1>
+
     <div class="row">
         <!-- LEFT COLUMN (4/12) -->
         <div class="col-md-4 d-flex flex-column gap-3">
@@ -27,18 +27,20 @@
                 <p>@Model.Email</p>
 
                 <div class="poster">
-                    <button class="btn btn-warning w-100 mb-2" onclick="loadContent('/UserPage/ChangePasswordForm')">
+                    <button class="btn btn-warning w-100 mb-2"
+                            onclick="loadContent('@Url.Action("ChangePasswordForm", "UserPage")')">
                         Change Password
                     </button>
                 </div>
-
             </div>
+
+            <!-- Saved Recipes -->
             <div class="poster text-center">
                 <h3>Saved recipes</h3>
                 @foreach (var recipe in Model.SavedRecipes)
                 {
                     <button class="btn btn-outline-primary w-100 text-start mb-2"
-                            onclick="loadContent('/UserPage/RecipeDetails/@recipe.RecipeId')">
+                            onclick="loadContent('@Url.Action("RecipeDetails", "UserPage", new { id = recipe.RecipeId })')">
                         @recipe.RecipeName
                     </button>
                 }
@@ -66,7 +68,6 @@
     </div>
 </div>
 
-<!--Handling the loading spinner and error messages -->
 @section Scripts {
     <script>
         function loadContent(url) {
@@ -78,7 +79,7 @@
             spinner.style.display = "block";
             error.style.display = "none";
 
-            fetch(url)
+            fetch(url, { credentials: 'include' }) // 👈 ensures cookies/JWT are sent
                 .then(response => {
                     if (!response.ok) throw new Error("Network error");
                     return response.text();
@@ -96,5 +97,3 @@
         }
     </script>
 }
-
-
