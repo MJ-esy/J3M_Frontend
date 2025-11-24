@@ -1,5 +1,5 @@
-﻿using J3m_BE.DTOs.Users.ProfileDtos;
-using J3M.Services.Http;
+﻿using J3M.Services.Http;
+using J3M.Shared.DTOs.Users.ProfileDtos;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Net.Http.Json;

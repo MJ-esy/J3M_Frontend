@@ -1,8 +1,8 @@
 ﻿using J3M.Models;
 using J3M.Services.Http;
 using J3M.Shared.DTOs.Ingredients;
-using J3m_BE.DTOs.Recipes;
-using J3m_BE.DTOs.Users.ProfileDtos;
+using J3M.Shared.DTOs.Recipes;
+using J3M.Shared.DTOs.Users.ProfileDtos;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
