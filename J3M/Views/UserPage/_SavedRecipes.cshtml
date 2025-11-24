@@ -1,5 +1,6 @@
 ﻿@model List<J3m_BE.DTOs.Recipes.RecipeDetailDto>
 
+    <!-- Partial view to show the users Saved recipes-->
 <div class="poster text-center">
     <h3>Saved recipes</h3>
     @if (Model.Any())
@@ -11,6 +12,8 @@
                         onclick="loadContent('@Url.Action("RecipeDetails", "UserPage", new { id = recipe.RecipeId })')">
                     @recipe.RecipeName
                 </button>
+                
+                <!-- Remove recipe from favorites -->
                 <button class="btn btn-outline-danger"
                         onclick="confirmRemove(@recipe.RecipeId)">
                     ✖

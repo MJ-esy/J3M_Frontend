@@ -1,4 +1,7 @@
 ﻿@model UserProfileViewModel
+
+<!-- Index page for logged in Users Dashboard-->
+
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-R5HVY9NXPV"></script>
@@ -21,11 +24,13 @@
                 <h2>@Model.FullName</h2>
                 <p>@Model.Email</p>
 
+                <!--Button to Change Password-->
                 <button class="btn btn-info w-100 mb-2"
                         onclick="loadContent('@Url.Action("ChangePasswordForm", "UserPage")')">
                     Change Password
                 </button>
-
+               
+                <!--Button to Ingrediens-->
                 <button class="btn btn-info w-100 mb-2"
                         onclick="loadContent('@Url.Action("Ingredients", "UserPage")')">
                     Ingredients
@@ -33,17 +38,21 @@
             </div>
         </div>
         <!--Right Column-->
+
+        <!-- The text that is shown before user made a choise -->
         <div class="col-md-8">
             <div class="poster p-3 shadow-sm" id="dynamicContent">
                 <h5>Select an option from the left</h5>
             </div>
 
+            <!-- Loading spinner -->
             <div id="loadingSpinner" class="text-center mt-3" style="display:none;">
                 <div class="spinner-border text-primary" role="status">
                     <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
 
+            <!-- Error message -->
             <div id="errorMessage" class="alert alert-danger mt-3" style="display:none;">
                 Something went wrong while loading content.
             </div>
@@ -52,8 +61,10 @@
 </div>
 
 
+<!--Java Script, tried to move to separate file but errors got me good-->
  <script>
-         const content = document.getElementById("dynamicContent");
+        // JavaScript functions to load content dynamically 
+     const content = document.getElementById("dynamicContent");
     const spinner = document.getElementById("loadingSpinner");
     const error = document.getElementById("errorMessage");
 
@@ -106,6 +117,7 @@
         });
     }
 
+    // Add ingredient to generate recipe
     function addIngredient() {
         const input = document.getElementById("newIngredient");
         const ingredient = input.value.trim();
@@ -113,7 +125,7 @@
 
         let currentIngredients = getCurrentIngredients();
 
-        // undvik dubbletter
+        // no dubble ingredient in list
         if (!currentIngredients.some(i => i.toLowerCase() === ingredient.toLowerCase())) {
             currentIngredients.push(ingredient);
 
@@ -125,10 +137,12 @@
         input.value = '';
     }
 
+        // Remove ingredient from list
     function removeIngredient(ingredient, currentIngredientsJson) {
         const currentIngredients = JSON.parse(currentIngredientsJson);
         postContent('@Url.Action("RemoveIngredient", "UserPage")', { ingredient, currentIngredients });
 }
+            // Find recipes based on current ingredients
         function findRecipes() {
         const currentIngredients = getCurrentIngredients();
         if (currentIngredients.length === 0) {
@@ -152,6 +166,7 @@
         });
     }
 
+        // Get current ingredients from hidden field or DOM
     function getCurrentIngredients() {
         const hidden = document.getElementById("currentIngredientsJson");
         if (hidden && hidden.value) {
