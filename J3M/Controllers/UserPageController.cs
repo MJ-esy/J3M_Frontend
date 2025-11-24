@@ -77,42 +77,21 @@ public class UserPageController : Controller
         return PartialView("_Ingredient", list);
     }
 
-    //[HttpPost]
-    //public IActionResult AddIngredient([FromBody] IngredientRequest request)
-    //{
-    //    var currentIngredients = request.CurrentIngredients ?? new List<string>();
-
-    //    if (!string.IsNullOrWhiteSpace(request.Ingredient))
-    //        currentIngredients.Add(request.Ingredient);
-
-    //    return PartialView("_Ingredient", currentIngredients);
-    //}
-
-    //[HttpPost]
-    //[IgnoreAntiforgeryToken] // important for AJAX
-    //public IActionResult RemoveIngredient([FromBody] IngredientRequest request)
-    //{
-    //    var list = request.CurrentIngredients ?? new List<string>();
-    //    if (!string.IsNullOrWhiteSpace(request.Ingredient))
-    //        list.Remove(request.Ingredient);
-
-    //    return PartialView("_Ingredient", list);
-    //}
 
 
     [HttpPost]
-    public async Task<IActionResult> FilterRecipes(List<string> userIngredients)
+    [IgnoreAntiforgeryToken]
+    public async Task<IActionResult> FilterRecipes([FromBody] List<string> userIngredients)
     {
         var client = _authorizedApiClient.CreateClient();
-
         var response = await client.PostAsJsonAsync("api/Recipes/filter", userIngredients);
-        if (!response.IsSuccessStatusCode)
-        {
-            return PartialView("_FilteredRecipes", new List<RecipeDetailDto>());
-        }
 
-        var recipes = await response.Content.ReadFromJsonAsync<List<RecipeDetailDto>>();
+        if (!response.IsSuccessStatusCode)
+            return PartialView("_FilteredRecipes", new List<RecipeDetailDto>());
+
+        var recipes = await response.Content.ReadFromJsonAsync<List<RecipeDetailDto>>() ?? new List<RecipeDetailDto>();
         return PartialView("_FilteredRecipes", recipes);
     }
+
 
 }
