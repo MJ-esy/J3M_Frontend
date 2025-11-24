@@ -1,25 +1,39 @@
 ﻿@model List<J3m_BE.DTOs.Recipes.RecipeDetailDto>
 
-<div class="card mt-3">
-    <div class="card-header">
-        <h4>Matching Recipes</h4>
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-warning">
+        No recipes found for the selected ingredients.
     </div>
-    <div class="card-body">
-        @if (!Model.Any())
+}
+else
+{
+    <div class="row">
+        @foreach (var recipe in Model)
         {
-            <p>No recipes match your ingredients yet.</p>
-        }
-        else
-        {
-            <ul class="list-group">
-                @foreach (var recipe in Model)
-                {
-                    <li class="list-group-item">
-                        <strong>@recipe.RecipeName</strong><br />
-                        @recipe.Description
-                    </li>
-                }
-            </ul>
+            <div class="col-md-6 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <img src="@recipe.ImageUrl" class="card-img-top" alt="@recipe.RecipeName" />
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">@recipe.RecipeName</h5>
+                        <p class="card-text text-muted">
+                            @recipe.Description
+                        </p>
+
+                        <ul class="list-group list-group-flush mb-3">
+                            @foreach (var ing in recipe.Ingredients)
+                            {
+                                <li class="list-group-item">@ing.IngredientName</li>
+                            }
+                        </ul>
+
+                        <a href="@Url.Action("RecipeDetails", "UserPage", new { id = recipe.RecipeId })"
+                           class="btn btn-primary mt-auto">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
         }
     </div>
-</div>
+}

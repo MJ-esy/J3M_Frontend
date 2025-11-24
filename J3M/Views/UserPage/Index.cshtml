@@ -213,21 +213,49 @@
         });
     }
 
-    function addIngredient() {
+         function addIngredient() {
         const input = document.getElementById("newIngredient");
         const ingredient = input.value.trim();
         if (!ingredient) return;
 
-        const currentIngredients = Array.from(document.querySelectorAll('input[name="currentIngredients"]'))
-            .map(i => i.value);
+        let currentIngredients = getCurrentIngredients();
 
-        postContent('@Url.Action("AddIngredient", "UserPage")', { ingredient, currentIngredients });
+        // undvik dubbletter
+        if (!currentIngredients.some(i => i.toLowerCase() === ingredient.toLowerCase())) {
+            currentIngredients.push(ingredient);
+
+            postContent('@Url.Action("AddIngredient", "UserPage")', {
+                CurrentIngredients: currentIngredients
+            });
+        }
+
         input.value = '';
     }
 
     function removeIngredient(ingredient, currentIngredientsJson) {
-    const currentIngredients = JSON.parse(currentIngredientsJson);
-    postContent('@Url.Action("RemoveIngredient", "UserPage")', { ingredient, currentIngredients });
+        const currentIngredients = JSON.parse(currentIngredientsJson);
+        postContent('@Url.Action("RemoveIngredient", "UserPage")', { ingredient, currentIngredients });
 }
+    function findRecipes() {
+        let currentIngredients = getCurrentIngredients();
 
+        if (currentIngredients.length === 0) {
+            alert("Please add at least one ingredient.");
+            return;
+        }
+
+        // normalize all to lowercase before sending
+        const normalizedIngredients = currentIngredients.map(i => i.toLowerCase());
+
+        postContent('@Url.Action("FilterRecipes", "UserPage")', normalizedIngredients);
+    }
+
+    function getCurrentIngredients() {
+        const hidden = document.getElementById("currentIngredientsJson");
+        if (hidden && hidden.value) {
+            try { return JSON.parse(hidden.value) || []; } catch { return []; }
+        }
+        return Array.from(document.querySelectorAll('#ingredientList .ingredient-name'))
+            .map(el => el.textContent.trim());
+    }
  </script>

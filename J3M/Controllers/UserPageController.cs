@@ -29,7 +29,7 @@ public class UserPageController : Controller
             return RedirectToAction("Login", "Account");
         }
 
-        var profile = await profileResponse.Content.ReadFromJsonAsync<UserProfileDto>();
+        var profile = await profileResponse.Content.ReadFromJsonAsync<UserProfileDto>()!;
 
         var favoritesResponse = await client.GetAsync("api/UserRecipes/favorites");
         var favorites = favoritesResponse.IsSuccessStatusCode
@@ -55,15 +55,16 @@ public class UserPageController : Controller
         return PartialView("_Ingredient", ingredients);
     }
     [HttpPost]
-    [IgnoreAntiforgeryToken] // AJAX requests do not send token
-    public IActionResult AddIngredient([FromBody] IngredientRequest request)
+    [IgnoreAntiforgeryToken]
+    public IActionResult AddIngredient([FromBody] IngredientListRequest request)
     {
-        var list = request.CurrentIngredients ?? new List<string>();
-        if (!string.IsNullOrWhiteSpace(request.Ingredient))
-            list.Add(request.Ingredient);
+        var updated = request.CurrentIngredients?.Distinct(StringComparer.OrdinalIgnoreCase).ToList()
+                      ?? new List<string>();
 
-        return PartialView("_Ingredient", list);
+        TempData["CurrentIngredients"] = updated;
+        return PartialView("_Ingredient", updated);
     }
+
 
     [HttpPost]
     [IgnoreAntiforgeryToken]
@@ -113,4 +114,5 @@ public class UserPageController : Controller
         var recipes = await response.Content.ReadFromJsonAsync<List<RecipeDetailDto>>();
         return PartialView("_FilteredRecipes", recipes);
     }
+
 }
