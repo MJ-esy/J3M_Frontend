@@ -1,12 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace J3m_BE.DTOs.Users;
+namespace J3M.Shared.DTOs.Users.AuthDtos;
 
 public class LoginDto
 {
     [Required]
     [StringLength(100)]
-    [Display(Name ="Email or Username")]
     public string EmailOrUserName { get; set; } = string.Empty;
 
     [Required]
