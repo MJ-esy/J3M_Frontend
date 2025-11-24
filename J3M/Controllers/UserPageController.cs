@@ -17,11 +17,13 @@ public class UserPageController : Controller
       
     }
 
+    // GET: /UserPage/Index
+    // Loads the user's profile and favorite recipes from the backend API
     [HttpGet]
     public async Task<IActionResult> Index()
     {
         var client = _authorizedApiClient.CreateClient();
-
+        // Request current user profile from backend
         var profileResponse = await client.GetAsync("api/Profile/me");
         if (!profileResponse.IsSuccessStatusCode)
         {
@@ -31,6 +33,7 @@ public class UserPageController : Controller
 
         var profile = await profileResponse.Content.ReadFromJsonAsync<UserProfileDto>()!;
 
+        // Request user's favorite recipes from backend
         var favoritesResponse = await client.GetAsync("api/UserRecipes/favorites");
         var favorites = favoritesResponse.IsSuccessStatusCode
             ? await favoritesResponse.Content.ReadFromJsonAsync<List<RecipeDetailDto>>()
@@ -47,6 +50,8 @@ public class UserPageController : Controller
         return View(vm);
     }
 
+    // GET: /UserPage/Ingredients
+    // Returns a partial view with an empty ingredient list
     [HttpGet]
     public IActionResult Ingredients()
     {
@@ -54,6 +59,9 @@ public class UserPageController : Controller
         var ingredients = new List<string>();
         return PartialView("_Ingredient", ingredients);
     }
+
+    // POST: /UserPage/AddIngredient
+    // Adds a new ingredient to the list (avoids duplicates)
     [HttpPost]
     [IgnoreAntiforgeryToken]
     public IActionResult AddIngredient([FromBody] IngredientListRequest request)
@@ -61,11 +69,12 @@ public class UserPageController : Controller
         var updated = request.CurrentIngredients?.Distinct(StringComparer.OrdinalIgnoreCase).ToList()
                       ?? new List<string>();
 
-        TempData["CurrentIngredients"] = updated;
-        return PartialView("_Ingredient", updated);
+        TempData["CurrentIngredients"] = updated; // Store updated list temporarily in TempData
+        return PartialView("_Ingredient", updated); // Return updated ingredient list partial view
     }
 
-
+    // POST: /UserPage/RemoveIngredient
+    // Removes a specific ingredient from the list
     [HttpPost]
     [IgnoreAntiforgeryToken]
     public IActionResult RemoveIngredient([FromBody] IngredientRequest request)
@@ -78,13 +87,14 @@ public class UserPageController : Controller
     }
 
 
-
+    // POST: /UserPage/FilterRecipes
+    // Filters recipes based on user-provided ingredients
     [HttpPost]
     [IgnoreAntiforgeryToken]
     public async Task<IActionResult> FilterRecipes([FromBody] List<string> userIngredients)
     {
         var client = _authorizedApiClient.CreateClient();
-        var response = await client.PostAsJsonAsync("api/Recipes/filter", userIngredients);
+        var response = await client.PostAsJsonAsync("api/Recipes/filter", userIngredients); // Send ingredients to backend API for filtering
 
         if (!response.IsSuccessStatusCode)
             return PartialView("_FilteredRecipes", new List<RecipeDetailDto>());
@@ -92,6 +102,9 @@ public class UserPageController : Controller
         var recipes = await response.Content.ReadFromJsonAsync<List<RecipeDetailDto>>() ?? new List<RecipeDetailDto>();
         return PartialView("_FilteredRecipes", recipes);
     }
+
+    // GET: /UserPage/RecipeDetails/{id}
+    // Loads detailed information for a single recipe
     [HttpGet]
     public async Task<IActionResult> RecipeDetails(int id)
     {

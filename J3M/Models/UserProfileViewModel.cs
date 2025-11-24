@@ -5,7 +5,7 @@ namespace J3M.Models
 {
     public class UserProfileViewModel
     {
-        public string AvatarUrl { get; set; } = "/images/placeholder-avatar.png";
+        public string AvatarUrl { get; set; } = "/images/avatar.png";
 
         // Backend user info
         public int UserId { get; set; }
