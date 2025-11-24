@@ -1,0 +1,25 @@
+﻿@model List<J3m_BE.DTOs.Recipes.RecipeDetailDto>
+
+<div class="poster text-center">
+    <h3>Saved recipes</h3>
+    @if (Model.Any())
+    {
+        foreach (var recipe in Model)
+        {
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <button class="btn btn-outline-primary flex-grow-1 text-start me-2"
+                        onclick="loadContent('@Url.Action("RecipeDetails", "UserPage", new { id = recipe.RecipeId })')">
+                    @recipe.RecipeName
+                </button>
+                <button class="btn btn-outline-danger"
+                        onclick="confirmRemove(@recipe.RecipeId)">
+                    ✖
+                </button>
+            </div>
+        }
+    }
+    else
+    {
+        <p>No saved recipes yet.</p>
+    }
+</div>
