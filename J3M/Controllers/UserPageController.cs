@@ -92,6 +92,18 @@ public class UserPageController : Controller
         var recipes = await response.Content.ReadFromJsonAsync<List<RecipeDetailDto>>() ?? new List<RecipeDetailDto>();
         return PartialView("_FilteredRecipes", recipes);
     }
+    [HttpGet]
+    public async Task<IActionResult> RecipeDetails(int id)
+    {
+        var client = _authorizedApiClient.CreateClient();
+        var recipe = await client.GetFromJsonAsync<RecipeDetailDto>($"api/Recipes/{id}");
+
+        if (recipe == null)
+            return PartialView("_RecipeDetails", new RecipeDetailDto());
+
+        return PartialView("_RecipeDetails", recipe);
+    }
+
 
 
 }
