@@ -36,6 +36,7 @@ namespace J3M
 
             app.UseRouting();
             app.UseSession();
+            app.UseAuthorization();
 
            
 
