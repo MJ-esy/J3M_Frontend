@@ -44,12 +44,24 @@ h1{
 .bgWhiteButton {
     background-color: #FFF5F5;
     color: #000;
+    border-radius: 2rem; /* <-- rounder corners (adjust value as desired) */
+    padding: 0.4rem 1rem; /* increase clickable area */
+    border: none; /* remove default border if any */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.bgWhiteButton:hover{
-    background-color:  #FFB8B7;
-    font-weight:700;
-}
+    .bgWhiteButton:hover {
+        background-color: #FFB8B7;
+        font-weight: 700;
+        border-radius: 2rem; /* <-- rounder corners (adjust value as desired) */
+        padding: 0.4rem 1rem; /* increase clickable area */
+        border: none; /* remove default border if any */
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
 
 /*--------------Navigation bar related------------------*/
 
@@ -97,7 +109,14 @@ h1{
 img {
     border-radius: 1.5rem;
 }
-
+/* User Avatar Image*/
+.avatar {
+    width: 85%; /* slightly smaller than the column */
+    max-width: 220px; /* optional limit */
+    height: auto;
+    display: block;
+    margin: 0 auto; /* keeps it centered */
+}
 
 /*------------Diet carousel---------------*/
 
@@ -265,3 +284,32 @@ img {
 }
 
 /*---------End cookie consent banner -----------*/
+
+
+
+/* Login card styles */
+.login-card {
+    background-color: #FFF5F5;
+    border-radius: 1.5rem;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.04);
+}
+
+    .login-card .form-label {
+        font-weight: 600;
+        color: #222;
+    }
+
+    .login-card h2 {
+        font-family: 'Lexend Deca', Lexend Deca;
+        margin-bottom: 0.5rem;
+    }
+
+@media (max-width: 576px) {
+    .login-card {
+        padding: 1rem;
+        margin: 0 1rem;
+    }
+}

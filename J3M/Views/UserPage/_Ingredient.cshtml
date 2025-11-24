@@ -1,0 +1,69 @@
+﻿@model List<string>
+
+<div class="card">
+    <div class="card-header">
+        <h4>My Ingredients</h4>
+    </div>
+    <div class="card-body">
+        <div class="input-group mb-3">
+            <input type="text" id="newIngredient" class="form-control" placeholder="Enter ingredient" />
+            <button type="button" class="btn btn-success" onclick="addIngredient()">Add</button>
+        </div>
+
+        <input type="hidden" id="currentIngredientsJson"
+               value='@Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model))' />
+
+        <ul class="list-group" id="ingredientList">
+            @foreach (var ing in Model)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span class="ingredient-name">@ing</span>
+                    <button type="button" class="btn btn-sm btn-danger"
+                            onclick="removeIngredient('@ing')">
+                        Remove
+                    </button>
+                </li>
+            }
+        </ul>
+
+        <div class="mt-3">
+            <button type="button" class="btn btn-primary w-100" onclick="findRecipes()">Get Recipes</button>
+        </div>
+    </div>
+</div>
+
+
+@* @model List<string>
+
+<div class="card">
+    <div class="card-header">
+        <h4>My Ingredients</h4>
+    </div>
+    <div class="card-body">
+        <form id="ingredientForm" onsubmit="event.preventDefault(); addIngredient();">
+            <div class="input-group mb-3">
+                <input type="text" id="newIngredient" class="form-control" placeholder="Enter ingredient" />
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <input type="hidden" name="currentIngredients" value="@Model[i]" />
+                }
+                <button type="submit" class="btn btn-success">Add</button>
+            </div>
+        </form>
+
+        <ul class="list-group">
+            @foreach (var ing in Model)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center"
+                    data-current='@Html.Raw(Json.Serialize(Model))'>
+                    @ing
+                    <button type="button" class="btn btn-sm btn-danger"
+                            onclick="removeIngredient('@ing', this.parentElement.dataset.current)">
+                        Remove
+                    </button>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+ *@
