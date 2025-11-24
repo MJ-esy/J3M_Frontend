@@ -5,4 +5,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="DTOs\User\**" />
+    <EmbeddedResource Remove="DTOs\User\**" />
+    <None Remove="DTOs\User\**" />
+  </ItemGroup>
+
 </Project>
