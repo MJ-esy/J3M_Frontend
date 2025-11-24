@@ -1,0 +1,49 @@
+﻿@model J3m_BE.DTOs.Users.RegisterDto
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h2>Create an Account</h2>
+<!-- Shows all ModelState errors  -->
+<div class="container min-vh-100 d-flex align-items-center justify-content-center">
+    <div class="login-card card p-4 p-md-5">
+        <h2 class="text-center mb-4">Register</h2>
+
+        <form asp-action="Register" method="post" novalidate>
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="UserName" class="form-label">Username</label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label">Email</label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+
+            @* <div class="mb-3">
+                <label asp-for="DisplayName"></label>
+                <input asp-for="DisplayName" class="form-control" />
+                <span asp-validation-for="DisplayName" class="text-danger"></span>
+            </div> *@
+
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label"></label>
+                <input asp-for="Password" type="password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            @* <a asp-controller="Register" asp-action="Register">Register now</a> *@
+            <button type="submit" class="btn bgWhiteButton w-100 rounded-pill mt-3">Register</button>
+            <p class="text-sm-center mb-4"> <small>Are you already member?</small></p>
+            <a asp-controller="Account" asp-action="Login">Log in here</a>
+            
+
+        </form>
+    </div>
+</div>
