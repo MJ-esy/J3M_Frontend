@@ -109,7 +109,14 @@ h1{
 img {
     border-radius: 1.5rem;
 }
-
+/* User Avatar Image*/
+.avatar {
+    width: 85%; /* slightly smaller than the column */
+    max-width: 220px; /* optional limit */
+    height: auto;
+    display: block;
+    margin: 0 auto; /* keeps it centered */
+}
 
 /*------------Diet carousel---------------*/
 

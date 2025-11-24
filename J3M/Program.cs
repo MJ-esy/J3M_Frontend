@@ -28,10 +28,9 @@ namespace J3M
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            //app.UseSession();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -39,6 +38,12 @@ namespace J3M
             app.UseSession();
             app.UseAuthorization();
 
+           
+
+            builder.Services.AddAuthorization();
+            
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",

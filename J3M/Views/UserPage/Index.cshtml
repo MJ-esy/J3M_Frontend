@@ -1,0 +1,153 @@
+﻿@model UserProfileViewModel
+
+<div class="container mt-4">
+    <h1 class="display-4 mb-5">My Page</h1>
+
+    <div class="row">
+  <!--Left Column-->
+        <div class="col-md-4 d-flex flex-column gap-3">
+            <div class="poster text-center">
+                <img src="@Url.Content("~/images/Avatar.png")" class="avatar mb-2" alt="User avatar" />
+                <h2>@Model.FullName</h2>
+                <p>@Model.Email</p>
+
+                <button class="btn btn-info w-100 mb-2"
+                        onclick="loadContent('@Url.Action("ChangePasswordForm", "UserPage")')">
+                    Change Password
+                </button>
+
+                <button class="btn btn-info w-100 mb-2"
+                        onclick="loadContent('@Url.Action("Ingredients", "UserPage")')">
+                    Ingredients
+                </button>
+            </div>
+        </div>
+        <!--Right Column-->
+        <div class="col-md-8">
+            <div class="poster p-3 shadow-sm" id="dynamicContent">
+                <h5>Select an option from the left</h5>
+            </div>
+
+            <div id="loadingSpinner" class="text-center mt-3" style="display:none;">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+
+            <div id="errorMessage" class="alert alert-danger mt-3" style="display:none;">
+                Something went wrong while loading content.
+            </div>
+        </div>
+    </div>
+</div>
+
+
+ <script>
+         const content = document.getElementById("dynamicContent");
+    const spinner = document.getElementById("loadingSpinner");
+    const error = document.getElementById("errorMessage");
+
+    function loadContent(url) {
+        content.style.display = "none";
+        spinner.style.display = "block";
+        error.style.display = "none";
+
+        fetch(url, { credentials: 'include' })
+            .then(res => {
+                if (!res.ok) throw new Error("Network error");
+                return res.text();
+            })
+            .then(html => {
+                content.innerHTML = html;
+                content.style.display = "block";
+                spinner.style.display = "none";
+            })
+            .catch(err => {
+                console.error(err);
+                spinner.style.display = "none";
+                error.style.display = "block";
+            });
+    }
+
+    function postContent(url, data) {
+        content.style.display = "none";
+        spinner.style.display = "block";
+        error.style.display = "none";
+
+        fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+            credentials: 'include'
+        })
+        .then(res => {
+            if (!res.ok) throw new Error("Network error");
+            return res.text();
+        })
+        .then(html => {
+            content.innerHTML = html;
+            content.style.display = "block";
+            spinner.style.display = "none";
+        })
+        .catch(err => {
+            console.error(err);
+            spinner.style.display = "none";
+            error.style.display = "block";
+        });
+    }
+
+    function addIngredient() {
+        const input = document.getElementById("newIngredient");
+        const ingredient = input.value.trim();
+        if (!ingredient) return;
+
+        let currentIngredients = getCurrentIngredients();
+
+        // undvik dubbletter
+        if (!currentIngredients.some(i => i.toLowerCase() === ingredient.toLowerCase())) {
+            currentIngredients.push(ingredient);
+
+            postContent('@Url.Action("AddIngredient", "UserPage")', {
+                CurrentIngredients: currentIngredients
+            });
+        }
+
+        input.value = '';
+    }
+
+    function removeIngredient(ingredient, currentIngredientsJson) {
+        const currentIngredients = JSON.parse(currentIngredientsJson);
+        postContent('@Url.Action("RemoveIngredient", "UserPage")', { ingredient, currentIngredients });
+}
+        function findRecipes() {
+        const currentIngredients = getCurrentIngredients();
+        if (currentIngredients.length === 0) {
+            alert("Please add at least one ingredient.");
+            return;
+        }
+
+        // Send as JSON array
+        fetch('@Url.Action("FilterRecipes", "UserPage")', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(currentIngredients)
+        })
+        .then(res => res.text())
+        .then(html => {
+            document.getElementById("dynamicContent").innerHTML = html;
+        })
+        .catch(err => {
+            console.error("Error filtering recipes:", err);
+            document.getElementById("errorMessage").style.display = "block";
+        });
+    }
+
+    function getCurrentIngredients() {
+        const hidden = document.getElementById("currentIngredientsJson");
+        if (hidden && hidden.value) {
+            try { return JSON.parse(hidden.value) || []; } catch { return []; }
+        }
+        return Array.from(document.querySelectorAll('#ingredientList .ingredient-name'))
+            .map(el => el.textContent.trim());
+    }
+ </script>
