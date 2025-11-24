@@ -11,8 +11,4 @@
     <ProjectReference Include="..\J3M.Shared\J3M.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\WeeklyPlanner\" />
-  </ItemGroup>
-
 </Project>
