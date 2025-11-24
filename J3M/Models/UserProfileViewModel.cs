@@ -1,5 +1,5 @@
-﻿using J3m_BE.DTOs.Recipes;
-using J3m_BE.DTOs.Users.ProfileDtos;
+﻿using J3M.Shared.DTOs.Recipes;
+using J3M.Shared.DTOs.Users.ProfileDtos;
 
 namespace J3M.Models
 {
