@@ -1,7 +1,12 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Smart meal planning with J3M";
 }
-@section Scripts{
+
+@section MetaDescription {
+    <meta name="description" content="Plan your weekly meals smarter with J3M. Discover recipes based on diets like vegan, keto, paleo and more, and turn ingredients into ready-to-cook ideas." />
+}
+
+@section Scripts {
     <script src="~/js/dietCarousel.js"></script>
 }
 <head>
@@ -18,16 +23,15 @@
 <div>
     <h1 class="display-4 mb-5">Welcome to J3M</h1>
 
-   
     <div class="container">
         @* Introduction poster *@
         <div class="row poster mb-5 p-3">
             @* Image for introduction poster *@
             <div class="col-3 p-0">
-                <img src="~/images/General/marisol-benitez-QvkAQTNj4zk-unsplash-Vegetables.jpg" 
-                    alt="Image of vegetables" 
-                     class=" object-fit-cover h-100 w-100" style="display:block; " />
-            </div>  
+                <img src="~/images/General/marisol-benitez-QvkAQTNj4zk-unsplash-Vegetables.jpg"
+                     alt="Fresh vegetables arranged for cooking"
+                     class="object-fit-cover h-100 w-100" style="display:block;" />
+            </div>
 
             @* Text *@
             <div class="col">
@@ -35,11 +39,12 @@
                     <strong>J3M</strong> — your smarter way to plan meals
                 </h3>
                 <p class="h4">
-                    Discover recipes, explore ingredients, and create weekly meal plans tailored to your needs. Simple, organized, and designed for everyday life.
+                    Discover recipes, explore ingredients, and create weekly meal plans tailored to your needs.
+                    Simple, organized, and designed for everyday life.
                 </p>
                 <br />
                 <partial name="_RegisterButton" />
-            </div>                    
+            </div>
         </div>
 
         @* Diets Carousel *@
@@ -48,62 +53,80 @@
             <div class="col-md-4 py-5">
                 <h3 class="pt-5 ps-3">Recipes by <strong>Diets</strong></h3>
             </div>
+
             @* Carousel with Images *@
             <div class="col d-flex align-items-center justify-content-center rounded-pill px-3 py-3">
                 <!-- Prev arrow -->
-                <button class="btn btn-link text-dark fs-3 px-2 m-0 diet-prev" type="button">
+                <button class="btn btn-link text-dark fs-3 px-2 m-0 diet-prev" type="button" aria-label="Previous diet">
                     &lsaquo;
                 </button>
 
                 <!-- Track container -->
                 <div class="flex-grow-1 overflow-hidden px-2">
                     <div class="diet-track d-flex align-items-center">
-                        <!-- One image = one “slide” -->
-                        <a href="#" class="diet-link">
-                            <img src="~/images/Diet/caroline-green-Pqt1yIF-Fw0-unsplash-Vegan.jpg" class="diet-slide" alt="Diet Vegan" />
-                            <span class="diet-label">Vegan</span>
+
+                        <!-- Vegan -->
+                        <a href="/Diets/Vegan" class="diet-link" title="Explore Vegan recipes and meal plans">
+                            <img src="~/images/Diet/caroline-green-Pqt1yIF-Fw0-unsplash-Vegan.jpg"
+                                 class="diet-slide"
+                                 alt="Fresh plant-based meals for Vegan diet" />
+                            <span class="diet-label">Vegan Recipes</span>
                         </a>
-                        <a href="#" class="diet-link">
-                            <img src="~/images/Diet/cloris-ying-rmdo8r9iGfw-unsplash-Pescetarian.jpg" class="diet-slide" alt="Diet Pescetarian" />
-                            <span class="diet-label">Pescetarian</span>
+
+                        <!-- Pescetarian -->
+                        <a href="/Diets/Pescetarian" class="diet-link" title="Discover Pescetarian diet recipes">
+                            <img src="~/images/Diet/cloris-ying-rmdo8r9iGfw-unsplash-Pescetarian.jpg"
+                                 class="diet-slide"
+                                 alt="Healthy seafood dishes for Pescetarian diet" />
+                            <span class="diet-label">Pescetarian Recipes</span>
                         </a>
-                        <a href="#" class="diet-link">
-                            <img src="~/images/Diet/kim-daniels-DdB-4uOJNVA-unsplash-Paleo.jpg" class="diet-slide" alt="Diet Paleo" />
-                            <span class="diet-label">Paleo</span>
+
+                        <!-- Paleo -->
+                        <a href="/Diets/Paleo" class="diet-link" title="Browse Paleo-friendly recipes">
+                            <img src="~/images/Diet/kim-daniels-DdB-4uOJNVA-unsplash-Paleo.jpg"
+                                 class="diet-slide"
+                                 alt="Protein-rich Paleo diet meals with fresh ingredients" />
+                            <span class="diet-label">Paleo Recipes</span>
                         </a>
-                        <a href="#" class="diet-link">
-                            <img src="~/images/Diet/nadine-primeau-n4RrgczkLJM-unsplash-Keto.jpg" class="diet-slide" alt="Diet Keto" />
-                            <span class="diet-label">Keto</span>
+
+                        <!-- Keto -->
+                        <a href="/Diets/Keto" class="diet-link" title="Low-carb Keto recipes and meal plans">
+                            <img src="~/images/Diet/nadine-primeau-n4RrgczkLJM-unsplash-Keto.jpg"
+                                 class="diet-slide"
+                                 alt="Low-carb Keto diet meals with healthy fats" />
+                            <span class="diet-label">Keto Recipes</span>
                         </a>
-                        <a href="#" class="diet-link">
-                            <img src="~/images/Diet/odiseo-castrejon-1SPu0KT-Ejg-unsplash-Vegetarian.jpg" class="diet-slide" alt="Diet Vegetarian" />
-                            <span class="diet-label">Vegetarian</span>
+
+                        <!-- Vegetarian -->
+                        <a href="/Diets/Vegetarian" class="diet-link" title="Vegetarian recipes and meal ideas">
+                            <img src="~/images/Diet/odiseo-castrejon-1SPu0KT-Ejg-unsplash-Vegetarian.jpg"
+                                 class="diet-slide"
+                                 alt="Colorful vegetarian meals with fresh vegetables" />
+                            <span class="diet-label">Vegetarian Recipes</span>
                         </a>
+
                     </div>
                 </div>
 
                 <!-- Next arrow -->
-                <button class="btn btn-link text-dark fs-3 px-2 m-0 diet-next" type="button">
+                <button class="btn btn-link text-dark fs-3 px-2 m-0 diet-next" type="button" aria-label="Next diet">
                     &rsaquo;
                 </button>
             </div>
         </div>
 
         @* Register Now *@
-        <div class ="poster row mb-5 p-3">
-            <div class="col"><strong></strong>
-                <h3 class="display-6 mb-4"> <strong>Plan smarter — join J3M for free</strong></h3>
+        <div class="poster row mb-5 p-3">
+            <div class="col">
+                <h3 class="display-6 mb-4"><strong>Plan smarter — join J3M for free</strong></h3>
                 <p class="h5">
-                    Create your account and start exploring <br />
-                    <br /> Discover J3M and begin planning your meals
+                    Create your account and start exploring.<br /><br />
+                    Discover J3M and begin planning your meals.
                 </p>
             </div>
             <div class="col-md-4 p-lg-5 my-5">
                 <partial name="_RegisterButton" />
-           </div>
-            
+            </div>
         </div>
-        
     </div>
-
 </div>

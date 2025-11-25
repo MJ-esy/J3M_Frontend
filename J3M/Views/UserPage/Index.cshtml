@@ -1,38 +1,44 @@
 ﻿@model UserProfileViewModel
 
-<!-- Index page for logged in Users Dashboard-->
+@{
+    ViewData["Title"] = "My Page - J3M account";
+}
 
-<head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R5HVY9NXPV"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+@section MetaDescription {
+    <meta name="description" content="Manage your J3M account, update your password and ingredients, and personalize your meal planning experience." />
+}
 
-        gtag('config', 'G-R5HVY9NXPV');
-    </script>
-</head>
+@section MetaRobots {
+    <!-- Blocks crawlers -->
+    <meta name="robots" content="noindex, nofollow" />
+}
+
 <div class="container mt-4">
     <h1 class="display-4 mb-5">My Page</h1>
 
     <div class="row">
-  <!--Left Column-->
+        <!-- Left Column -->
         <div class="col-md-4 d-flex flex-column gap-3">
             <div class="poster text-center">
-                <img src="@Url.Content("~/images/Avatar.png")" class="avatar mb-2" alt="User avatar" />
+                <img src="@Url.Content("~/images/Avatar.png")"
+                     class="avatar mb-2"
+                     alt="User avatar for @Model.FullName" />
                 <h2>@Model.FullName</h2>
                 <p>@Model.Email</p>
 
                 <!--Button to Change Password-->
                 <button class="btn btn-info w-100 mb-2"
-                        onclick="loadContent('@Url.Action("ChangePasswordForm", "UserPage")')">
+                        type="button"
+                        onclick="loadContent('@Url.Action("ChangePasswordForm", "UserPage")')"
+                        aria-label="Change your J3M account password">
                     Change Password
                 </button>
                
                 <!--Button to Ingrediens-->
                 <button class="btn btn-info w-100 mb-2"
-                        onclick="loadContent('@Url.Action("Ingredients", "UserPage")')">
+                        type="button"
+                        onclick="loadContent('@Url.Action("Ingredients", "UserPage")')"
+                        aria-label="Manage your saved ingredients">
                     Ingredients
                 </button>
             </div>
@@ -60,20 +66,45 @@
     </div>
 </div>
 
+@section Scripts {
+    <script>
+        const content = document.getElementById("dynamicContent");
+        const spinner = document.getElementById("loadingSpinner");
+        const error = document.getElementById("errorMessage");
 
-<!--Java Script, tried to move to separate file but errors got me good-->
- <script>
-        // JavaScript functions to load content dynamically 
-     const content = document.getElementById("dynamicContent");
-    const spinner = document.getElementById("loadingSpinner");
-    const error = document.getElementById("errorMessage");
+        function loadContent(url) {
+            content.style.display = "none";
+            spinner.style.display = "block";
+            error.style.display = "none";
 
-    function loadContent(url) {
-        content.style.display = "none";
-        spinner.style.display = "block";
-        error.style.display = "none";
+            fetch(url, { credentials: 'include' })
+                .then(res => {
+                    if (!res.ok) throw new Error("Network error");
+                    return res.text();
+                })
+                .then(html => {
+                    content.innerHTML = html;
+                    content.style.display = "block";
+                    spinner.style.display = "none";
+                })
+                .catch(err => {
+                    console.error(err);
+                    spinner.style.display = "none";
+                    error.style.display = "block";
+                });
+        }
 
-        fetch(url, { credentials: 'include' })
+        function postContent(url, data) {
+            content.style.display = "none";
+            spinner.style.display = "block";
+            error.style.display = "none";
+
+            fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+                credentials: 'include'
+            })
             .then(res => {
                 if (!res.ok) throw new Error("Network error");
                 return res.text();
@@ -88,91 +119,62 @@
                 spinner.style.display = "none";
                 error.style.display = "block";
             });
-    }
+        }
 
-    function postContent(url, data) {
-        content.style.display = "none";
-        spinner.style.display = "block";
-        error.style.display = "none";
+        function addIngredient() {
+            const input = document.getElementById("newIngredient");
+            const ingredient = input.value.trim();
+            if (!ingredient) return;
 
-        fetch(url, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-            credentials: 'include'
-        })
-        .then(res => {
-            if (!res.ok) throw new Error("Network error");
-            return res.text();
-        })
-        .then(html => {
-            content.innerHTML = html;
-            content.style.display = "block";
-            spinner.style.display = "none";
-        })
-        .catch(err => {
-            console.error(err);
-            spinner.style.display = "none";
-            error.style.display = "block";
-        });
-    }
+            let currentIngredients = getCurrentIngredients();
 
-    // Add ingredient to generate recipe
-    function addIngredient() {
-        const input = document.getElementById("newIngredient");
-        const ingredient = input.value.trim();
-        if (!ingredient) return;
+            // avoid duplicates (case insensitive)
+            if (!currentIngredients.some(i => i.toLowerCase() === ingredient.toLowerCase())) {
+                currentIngredients.push(ingredient);
 
-        let currentIngredients = getCurrentIngredients();
+                postContent('@Url.Action("AddIngredient", "UserPage")', {
+                    CurrentIngredients: currentIngredients
+                });
+            }
 
-        // no dubble ingredient in list
-        if (!currentIngredients.some(i => i.toLowerCase() === ingredient.toLowerCase())) {
-            currentIngredients.push(ingredient);
+            input.value = '';
+        }
 
-            postContent('@Url.Action("AddIngredient", "UserPage")', {
-                CurrentIngredients: currentIngredients
+        function removeIngredient(ingredient, currentIngredientsJson) {
+            const currentIngredients = JSON.parse(currentIngredientsJson);
+            postContent('@Url.Action("RemoveIngredient", "UserPage")', { ingredient, currentIngredients });
+        }
+
+        function findRecipes() {
+            const currentIngredients = getCurrentIngredients();
+            if (currentIngredients.length === 0) {
+                alert("Please add at least one ingredient.");
+                return;
+            }
+
+            // Send as JSON array
+            fetch('@Url.Action("FilterRecipes", "UserPage")', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(currentIngredients)
+            })
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById("dynamicContent").innerHTML = html;
+            })
+            .catch(err => {
+                console.error("Error filtering recipes:", err);
+                document.getElementById("errorMessage").style.display = "block";
             });
         }
 
-        input.value = '';
-    }
-
-        // Remove ingredient from list
-    function removeIngredient(ingredient, currentIngredientsJson) {
-        const currentIngredients = JSON.parse(currentIngredientsJson);
-        postContent('@Url.Action("RemoveIngredient", "UserPage")', { ingredient, currentIngredients });
+        function getCurrentIngredients() {
+            const hidden = document.getElementById("currentIngredientsJson");
+            if (hidden && hidden.value) {
+                try { return JSON.parse(hidden.value) || []; } catch { return []; }
+            }
+            return Array.from(document.querySelectorAll('#ingredientList .ingredient-name'))
+                .map(el => el.textContent.trim());
+        }
+    </script>
 }
-            // Find recipes based on current ingredients
-        function findRecipes() {
-        const currentIngredients = getCurrentIngredients();
-        if (currentIngredients.length === 0) {
-            alert("Please add at least one ingredient.");
-            return;
-        }
-
-        // Send as JSON array
-        fetch('@Url.Action("FilterRecipes", "UserPage")', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(currentIngredients)
-        })
-        .then(res => res.text())
-        .then(html => {
-            document.getElementById("dynamicContent").innerHTML = html;
-        })
-        .catch(err => {
-            console.error("Error filtering recipes:", err);
-            document.getElementById("errorMessage").style.display = "block";
-        });
-    }
-
-        // Get current ingredients from hidden field or DOM
-    function getCurrentIngredients() {
-        const hidden = document.getElementById("currentIngredientsJson");
-        if (hidden && hidden.value) {
-            try { return JSON.parse(hidden.value) || []; } catch { return []; }
-        }
-        return Array.from(document.querySelectorAll('#ingredientList .ingredient-name'))
-            .map(el => el.textContent.trim());
-    }
- </script>
