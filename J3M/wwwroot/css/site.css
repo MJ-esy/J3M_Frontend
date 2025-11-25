@@ -259,6 +259,8 @@ img {
         background-color: #000;
         color: #FFB8B7;
     }
+
+
 /*----- Cookie Consent Banner----*/
 .cookie-banner {
     position: fixed;
@@ -267,7 +269,7 @@ img {
     right: 20px;
     background-color: #FFF5F5;
     color: #333;
-    border: 2px solid #FFB6B6;
+    border: 3px solid #000;
     border-radius: 12px;
     padding: 16px 24px;
     font-family: 'Segoe UI', sans-serif;
