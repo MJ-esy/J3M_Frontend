@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "J3M", "J3M\J3M.csproj", "{1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "J3M.Shared", "J3M.Shared\J3M.Shared.csproj", "{A712088E-9947-895B-84E9-BAC952DFD9D0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MealPlanMvcControllerTest", "MealPlanMvcControllerTest\MealPlanMvcControllerTest.csproj", "{53EEDC1C-277F-493F-A2C6-4A2A2492E6E0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{A712088E-9947-895B-84E9-BAC952DFD9D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A712088E-9947-895B-84E9-BAC952DFD9D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A712088E-9947-895B-84E9-BAC952DFD9D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53EEDC1C-277F-493F-A2C6-4A2A2492E6E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53EEDC1C-277F-493F-A2C6-4A2A2492E6E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53EEDC1C-277F-493F-A2C6-4A2A2492E6E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53EEDC1C-277F-493F-A2C6-4A2A2492E6E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

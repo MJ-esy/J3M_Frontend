@@ -1,0 +1,42 @@
+﻿@model J3M.Models.RecipeViewModel
+
+@if (Model.Recipes == null || !Model.Recipes.Any())
+{
+    <div class="alert alert-info mt-4">
+        No recipes found. Adjust your filters and try again.
+    </div>
+}
+else
+{
+    <div class="row">
+        @foreach (var recipe in Model.Recipes)
+        {
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">@recipe.RecipeName</h5>
+                        <p class="card-text">@recipe.Description</p>
+
+                        <h6>Ingredients:</h6>
+                        <ul>
+                            @foreach (var ingredient in recipe.Ingredients)
+                            {
+                                <li>@ingredient</li>
+                            }
+                        </ul>
+
+                       @*  @if (User.Identity.IsAuthenticated)
+                        {
+                            <form asp-action="ToggleFavorite" method="post" class="mt-2">
+                                <input type="hidden" name="recipeId" value="@recipe.Id" />
+                                <button type="submit" class="btn btn-sm btn-outline-success">
+                                    @(recipe.IsFavorite ? "Unfavorite" : "Favorite")
+                                </button>
+                            </form>
+                        } *@
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
