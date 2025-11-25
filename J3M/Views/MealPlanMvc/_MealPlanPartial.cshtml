@@ -1,0 +1,51 @@
+﻿@model J3M.Models.MealPlanViewModel
+
+@if (Model.WeeklyPlan != null)
+{
+    <div class="row mt-4">
+        <div class="col-md-8">
+            <h4>Weekly Menu 🍽️</h4>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                        <th>Meals</th>
+                        <th>Summary</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var day in Model.WeeklyPlan.DaySummaries)
+                    {
+                        <tr>
+                            <td>@day.Day</td>
+                            <td>
+                                @foreach (var meal in day.Meals)
+                                {
+                                    <div><strong>@meal.MealType:</strong> @meal.Recipe.RecipeName</div>
+                                }
+                            </td>
+                            <td>@day.Summary</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-4">
+            <h4>Shopping List 🛒</h4>
+            <ul class="list-group">
+                @foreach (var item in Model.WeeklyPlan.ShoppingList)
+                {
+                    <li class="list-group-item">@item</li>
+                }
+            </ul>
+            <button class="btn btn-success mt-2" onclick="downloadShoppingList()">Download Shopping List</button>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-info mt-4">
+        No meal plan generated yet. Select allergies/diets and click <strong>Generate Weekly Menu</strong>.
+    </div>
+}

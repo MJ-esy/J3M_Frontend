@@ -5,4 +5,15 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="DTOs\User\**" />
+    <EmbeddedResource Remove="DTOs\User\**" />
+    <None Remove="DTOs\User\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Moq" Version="4.20.72" />
+  </ItemGroup>
+
 </Project>

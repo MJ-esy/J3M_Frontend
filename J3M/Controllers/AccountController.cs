@@ -1,5 +1,5 @@
 ﻿using J3M.Services.Http;
-using J3m_BE.DTOs.Users;
+using J3M.Shared.DTOs.Users.AuthDtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Json;

@@ -1,4 +1,7 @@
-﻿@model List<J3m_BE.DTOs.Recipes.RecipeDetailDto>
+﻿@model List<J3M.Shared.DTOs.Recipes.RecipeDetailDto>
+
+    <!-- Partial view where filtered recipes are shown to User -->
+
 
 @if (Model == null || !Model.Any())
 {
@@ -27,6 +30,7 @@ else
                             }
                         </ul>
 
+                        <!-- Button to redirect to recipes instructions-->
                         <a href="javascript:void(0);"
                            class="btn btn-primary mt-auto"
                            onclick="loadContent('@Url.Action("RecipeDetails", "UserPage", new { id = recipe.RecipeId })')">
