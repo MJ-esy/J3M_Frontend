@@ -51,30 +51,54 @@ namespace J3M_BE.Controllers
         }
 
         // POST: MealPlanMvc/GenerateWeeklyMenu
+        //[HttpPost]
+        //public async Task<IActionResult> GenerateWeeklyMenu(List<int> AllergyIds, List<int> DietIds)
+        //{
+        //    try
+        //    {
+        //        var plan = await _authorizedApiClient.PostAsync<WeeklyMealPlanDto>(
+        //            "api/MealPlan/weekly/ai",
+        //            new MealPlanRequest { AllergyIds = AllergyIds, DietIds = DietIds }
+        //        );
+
+        //        var vm = await BuildViewModel(plan, AllergyIds, DietIds);
+
+        //        if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+        //        {
+        //            return PartialView("_MealPlanPartial", vm);
+        //        }
+
+        //        return View("Index", vm);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return View("Error", new ErrorViewModel { Message = "Unable to generate weekly meal plan." });
+        //    }
+        //}
+
         [HttpPost]
         public async Task<IActionResult> GenerateWeeklyMenu(List<int> AllergyIds, List<int> DietIds)
         {
-            try
-            {
-                var plan = await _authorizedApiClient.PostAsync<WeeklyMealPlanDto>(
-                    "api/MealPlan/weekly/ai",
-                    new MealPlanRequest { AllergyIds = AllergyIds, DietIds = DietIds }
-                );
+            var plan = await _authorizedApiClient.PostAsync<WeeklyMealPlanDto>(
+                "api/MealPlan/weekly/ai",
+                new MealPlanRequest { AllergyIds = AllergyIds, DietIds = DietIds }
+            );
 
-                var vm = await BuildViewModel(plan, AllergyIds, DietIds);
-
-                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-                {
-                    return PartialView("_MealPlanPartial", vm);
-                }
-
-                return View("Index", vm);
-            }
-            catch (Exception ex)
+            if (plan == null)
             {
                 return View("Error", new ErrorViewModel { Message = "Unable to generate weekly meal plan." });
             }
+
+            var vm = await BuildViewModel(plan, AllergyIds, DietIds);
+
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                return PartialView("_MealPlanPartial", vm);
+            }
+
+            return View("Index", vm);
         }
+
 
 
     }

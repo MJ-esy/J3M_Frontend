@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Moq" Version="4.20.72" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\J3M.Shared\J3M.Shared.csproj" />
   </ItemGroup>
 
