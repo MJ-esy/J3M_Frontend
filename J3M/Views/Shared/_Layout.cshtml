@@ -96,31 +96,16 @@
                     {
                         <div class="d-flex flex-column flex-sm-row align-items-center gap-2">
                             <!-- My Page -->
-                            <a class="btn bgWhiteButton" asp-controller="UserPage" asp-action="Index">
-
+                            <a class="btn bgBlueButton" asp-controller="UserPage" asp-action="Index">
                                 My Page
                             </a>
 
                             <!-- Logout -->
                             <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
                                 @Html.AntiForgeryToken()
-                                <button class="btn bgWhiteButton" type="submit">Logout</button>
+                                <button class="btn btn-danger" style="border-radius: 2rem" type="submit">Logout</button>
                             </form>
-                        </div>
-
-                        <!-- My Page -->
-                        <a class="btn bgBlueButton" asp-controller="UserPage" asp-action="Index">
-                            @Html.AntiForgeryToken()
-                            My Page
-                        </a>
-                        <!-- Logout -->
-                        <form class="ms-2" asp-controller="Account" asp-action="Logout" method="post">
-                            @Html.AntiForgeryToken()
-                            <button type="submit" class="btn btn-danger" style="border-radius: 2rem">Logout</button>
-                        </form>
-
-
-                      
+                        </div>                      
                     }
                     else
                     {
