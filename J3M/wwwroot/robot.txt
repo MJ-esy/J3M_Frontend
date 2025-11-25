@@ -1,0 +1,4 @@
+﻿User-agent: *
+Disallow:
+
+Sitemap: https://j3m.azurewebsites.net/sitemap.xml
