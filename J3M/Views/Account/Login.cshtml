@@ -24,7 +24,20 @@
         <h1 class="text-center mb-4">Log in to J3M</h1>
 
         <form asp-action="Login" method="post" novalidate aria-label="Log in to your J3M account">
-            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+            @Html.AntiForgeryToken()
+
+            @* Bootstrap alert listing all ModelState errors (field + general) *@
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger mb-3" role="alert">
+                    <ul class="mb-0">
+                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                        {
+                            <li>@error.ErrorMessage</li>
+                        }
+                    </ul>
+                </div>
+            }
 
             <div class="mb-3">
                 <label asp-for="EmailOrUserName" class="form-label">Email or username</label>

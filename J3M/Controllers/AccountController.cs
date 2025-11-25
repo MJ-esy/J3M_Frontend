@@ -93,7 +93,11 @@ namespace J3M.Controllers
         public async Task<IActionResult> Register(RegisterDto model)
         {
             if (!ModelState.IsValid)
+            {
+                // add a general message so the view can show a single alert plus field errors
+                ModelState.AddModelError(string.Empty, "Please correct the highlighted errors and try again.");
                 return View(model);
+            }
 
             var client = _httpClientFactory.CreateClient("J3MApi");
 
