@@ -4,29 +4,17 @@
 @{
     ViewData["Title"] = "Weekly Meal Plan";
 }
-<head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-R5HVY9NXPV"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-R5HVY9NXPV');
-</script>
-</head>
 
 
-<div class="container mt-4">
+<div class="container mt-4 mealplan-container">
     <h1 class="display-4 text-center">Weekly Meal Plan</h1>
 
     <div class="row">
         <!-- Left column: Filters -->
-        <div class="col-md-3 border-end d-flex flex-column"
-             style="position:sticky; top:1rem; height:65vh;">
+        <div class="col-md-3 border-end d-flex flex-column filters-col">
 
             <form asp-action="GenerateWeeklyMenu" method="post" id="mealPlanForm" class="flex-grow-1 d-flex flex-column">
-                <div class="flex-grow-1 overflow-auto pe-2">
+                <div class="flex-grow-1 overflow-auto px-1">
                     <h5>Allergies </h5>
                     @foreach (var allergy in Model.Allergies)
                     {

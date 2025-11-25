@@ -336,3 +336,40 @@ img {
         margin: 0 1rem;
     }
 }
+
+/*----------------------Meal Planner -----------------------------*/
+/* Give the page room above the absolute footer */
+.mealplan-container {
+    padding-bottom: 80px;
+}
+
+/* Desktop: avoid internal scrolling in the left sticky column by
+   allowing the column to grow and adding extra bottom spacing so
+   footer does not overlap content. */
+@media (min-width: 992px) {
+    .mealplan-container {
+        padding-bottom: 120px;
+    }
+    /* extra clearance on desktop */
+    .filters-col {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 1rem;
+        /* remove internal scroll on desktop */
+        max-height: none;
+        overflow: visible;
+    }
+}
+
+/* Mobile / narrow screens: keep internal scrolling so the filter column remains usable */
+@media (max-width: 991.98px) {
+    .filters-col {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 1rem;
+        max-height: calc(100vh - 140px);
+        overflow: auto;
+    }
+}
+
+/*------------------------------------------End of Meal Planner---------------------------------------------------------------------*/
