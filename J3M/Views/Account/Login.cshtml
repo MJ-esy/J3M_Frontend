@@ -1,7 +1,11 @@
 ﻿@model J3M.Shared.DTOs.Users.AuthDtos.LoginDto
 
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Log in to J3M";
+}
+
+@section MetaDescription {
+    <meta name="description" content="Log in to your J3M account to plan meals, discover recipes, and manage your personalized meal plans." />
 }
 <head>
     <!-- Google tag (gtag.js) -->
@@ -17,23 +21,37 @@
 
 <div class="container min-vh-100 d-flex align-items-center justify-content-center">
     <div class="login-card card p-4 p-md-5">
-        <h2 class="text-center mb-4">Log In</h2>
+        <h1 class="text-center mb-4">Log in to J3M</h1>
 
-        <form asp-action="Login" method="post" novalidate>
+        <form asp-action="Login" method="post" novalidate aria-label="Log in to your J3M account">
             <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
             <div class="mb-3">
-                <label asp-for="EmailOrUserName" class="form-label">Email or Username</label>
-                <input asp-for="EmailOrUserName" class="form-control" />
+                <label asp-for="EmailOrUserName" class="form-label">Email or username</label>
+                <input asp-for="EmailOrUserName" class="form-control">
                 <span asp-validation-for="EmailOrUserName" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="Password" class="form-label"></label>
-                <input asp-for="Password" type="password" class="form-control" />
+                <label asp-for="Password" class="form-label">Password</label>
+                <input asp-for="Password" type="password" class="form-control"/>
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
 
+            <button type="submit" class="btn bgWhiteButton w-100 rounded-pill mt-3">
+                Log in
+            </button>
+
+            <p class="text-sm-center mb-2 mt-4">
+                <small>Don't have an account yet?</small>
+            </p>
+            <p class="text-sm-center mb-0">
+                <a asp-controller="Account"
+                   asp-action="Register"
+                   class="link-primary">
+                    Create a free J3M account
+                </a>
+            </p>
             <button type="submit" class="btn bgBlueButton w-100 rounded-pill mt-3">Log In</button>
             <p class="text-sm-center mb-4"> <small>Don't have an account yet?</small></p>
             <a asp-controller="Account" asp-action="Register">Register here</a>

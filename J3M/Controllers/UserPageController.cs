@@ -41,7 +41,7 @@ public class UserPageController : Controller
 
         var vm = new UserProfileViewModel
         {
-            FullName = profile?.DisplayName ?? User.Identity?.Name ?? "Unknown",
+            FullName = profile?.UserName ?? "Unknown",
             Email = profile?.Email ?? "",
             SavedRecipes = favorites,
             Profile = profile
