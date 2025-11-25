@@ -50,6 +50,8 @@ h1{
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    width: auto;
+    max-width: 100%;
 }
 
     .bgWhiteButton:hover {

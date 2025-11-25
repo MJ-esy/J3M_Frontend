@@ -1,26 +1,79 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var request = Context.Request;
+    var canonicalUrl = $"{request.Scheme}://{request.Host}{request.PathBase}{request.Path}";
+    var logoUrl = $"{request.Scheme}://{request.Host}/images/logo.png";
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Discover recipes, explore ingredients, and create weekly meal plans tailored to your needs." />
+
+    @* Standard / fallback description om ingen MetaDescription-sektion finns *@
+    @if (!IsSectionDefined("MetaDescription"))
+    {
+        <meta name="description" content="Discover recipes, explore ingredients, and create weekly meal plans tailored to your needs." />
+    }
+
     <meta name="keywords" content="meal planning, recipes, diets, keto, vegan, pescetarian, paleo, vegetarian" />
-    <meta name="robots" content="index, follow" />
+
+    @* Robots: antingen vy-specifik MetaRobots eller default index,follow *@
+    @if (IsSectionDefined("MetaRobots"))
+    {
+        @RenderSection("MetaRobots")
+    }
+    else
+    {
+        <meta name="robots" content="index, follow" />
+    }
+
     <title>@ViewData["Title"] - J3M</title>
+
+    @* Canonical + hreflang *@
+    <link rel="canonical" href="@canonicalUrl" />
+    <link rel="alternate" href="@canonicalUrl" hreflang="en" />
+    <link rel="alternate" href="@canonicalUrl" hreflang="x-default" />
+
     <link rel="icon" href="~/images/logo.png" type="image/x-icon" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/J3M.styles.css" asp-append-version="true" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@600&family=Lexend+Mega:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@600&family=Lexend+Mega:wght@100..900&display=swap" rel="stylesheet" />
+
+    @* Sida-specifik meta description (Home, About, Privacy, Login, etc.) *@
+    @RenderSection("MetaDescription", required: false)
+
+    @* JSON-LD för WebSite *@
+    <script type="application/ld+json">
+        {
+          "@@context": "https://schema.org",
+          "@@type": "WebSite",
+          "name": "J3M - Meal Planning",
+          "url": "@canonicalUrl",
+          "description": "Discover recipes, explore ingredients, and create weekly meal plans tailored to your needs."
+        }
+    </script>
+
+    @* JSON-LD för Organization *@
+    <script type="application/ld+json">
+        {
+          "@@context": "https://schema.org",
+          "@@type": "Organization",
+          "name": "J3M",
+          "url": "@canonicalUrl",
+          "logo": "@logoUrl"
+        }
+    </script>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-black border-2 my-3 mx-5 p-2 rounded-pill" >
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-black border-2 my-3 mx-5 p-2 rounded-pill">
             <div class="container-fluid" style="padding: 0.5rem 2rem">
-                <a class="navbar-brand"  asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="/images/logo.png" alt="J3M logo" class="navbar-logo img-fluid"/></a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="/images/logo.png" alt="J3M logo" class="navbar-logo img-fluid" />
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -33,35 +86,34 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="AboutUs">About Us</a>
                         </li>
-                        
                     </ul>
-                  
+                    
                     @if (Context.Request.Cookies["AuthToken"] != null)
                     {
+                        <div class="d-flex flex-column flex-sm-row align-items-center gap-2">
+                            <!-- My Page -->
+                            <a class="btn bgWhiteButton" asp-controller="UserPage" asp-action="Index">
 
-                        <!-- My Page -->
-                        <a class="btn bgWhiteButton" asp-controller="UserPage" asp-action="Index">
-                            @Html.AntiForgeryToken()
-                            My Page
-                        </a>
-                        <!-- Logout -->
-                        <form class="btn bgWhiteButton" asp-controller="Account" asp-action="Logout" method="post">
-                            @Html.AntiForgeryToken()
-                            <button type="submit" class="btn bgWhiteButton">Logout</button>
-                        </form>
+                                My Page
+                            </a>
 
-
+                            <!-- Logout -->
+                            <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <button class="btn bgWhiteButton" type="submit">Logout</button>
+                            </form>
+                        </div>
                       
                     }
                     else
                     {
                         <a class="btn bgWhiteButton" asp-controller="Account" asp-action="Login">Login</a>
-                       
                     }
                 </div>
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -70,18 +122,21 @@
 
     <footer class="footer text-muted">
         <div class="container">
-            &copy; 2025 - J3M - <a asp-area="" asp-controller="Home" asp-action="AboutUs">About Us</a>
+            &copy; 2025 - J3M -
+            <a asp-area="" asp-controller="Home" asp-action="AboutUs">About Us</a>
             <a asp-area="" asp-controller="Privacy" asp-action="Index">Privacy</a>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
-    
+
     <div id="cookie-banner" class="cookie-banner">
         <p>
-            We use cookies to improve your experience, personalize content, and analyze traffic. By continuing, you accept our <a href="/privacy" class="cookie-link">cookie policy</a>.
+            We use cookies to improve your experience, personalize content, and analyze traffic.
+            By continuing, you accept our <a href="/privacy" class="cookie-link">cookie policy</a>.
         </p>
         <button id="accept-cookies" class="cookie-btn">Got it!</button>
     </div>
