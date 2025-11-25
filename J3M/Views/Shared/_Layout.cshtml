@@ -41,14 +41,14 @@
                     {
 
                         <!-- My Page -->
-                        <a class="btn bgWhiteButton" asp-controller="UserPage" asp-action="Index">
+                        <a class="btn bgBlueButton" asp-controller="UserPage" asp-action="Index">
                             @Html.AntiForgeryToken()
                             My Page
                         </a>
                         <!-- Logout -->
-                        <form class="btn bgWhiteButton" asp-controller="Account" asp-action="Logout" method="post">
+                        <form class="ms-2" asp-controller="Account" asp-action="Logout" method="post">
                             @Html.AntiForgeryToken()
-                            <button type="submit" class="btn bgWhiteButton">Logout</button>
+                            <button type="submit" class="btn btn-danger" style="border-radius: 2rem">Logout</button>
                         </form>
 
 
