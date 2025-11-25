@@ -35,6 +35,7 @@
     <link rel="alternate" href="@canonicalUrl" hreflang="x-default" />
 
     <link rel="icon" href="~/images/logo.png" type="image/x-icon" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/J3M.styles.css" asp-append-version="true" />
@@ -103,7 +104,7 @@
                             <!-- Logout -->
                             <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
                                 @Html.AntiForgeryToken()
-                                <button class="btn btn-danger" style="border-radius: 2rem" type="submit">Logout</button>
+                                <button class="btn btn-danger" style="border-radius: 2rem;" type="submit">Logout</button>
                             </form>
                         </div>                      
                     }
