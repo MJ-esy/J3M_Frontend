@@ -50,11 +50,12 @@ h1{
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    font-weight:700;
 }
 
     .bgWhiteButton:hover {
         background-color: #FFB8B7;
-        font-weight: 700;
+        font-weight: 900;
         border-radius: 2rem; /* <-- rounder corners (adjust value as desired) */
         padding: 0.4rem 1rem; /* increase clickable area */
         border: none; /* remove default border if any */
@@ -62,6 +63,7 @@ h1{
         align-items: center;
         justify-content: center;
     }
+
 
 /*--------------Navigation bar related------------------*/
 
@@ -86,7 +88,6 @@ h1{
 }
 
 .nav-item:hover {
-    animation: shake 0.5s ease-in-out;
     text-shadow: 3px 3px 6px #2F91F7;
     font-weight:900;
 }
