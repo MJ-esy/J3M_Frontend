@@ -93,13 +93,56 @@ public class UserPageController : Controller
     [IgnoreAntiforgeryToken]
     public async Task<IActionResult> FilterRecipes([FromBody] List<string> userIngredients)
     {
+        // Safety: if user sent nothing, just return empty list
+        if (userIngredients == null || userIngredients.Count == 0)
+        {
+            return PartialView("_FilteredRecipes", new List<RecipeDetailDto>());
+        }
+
         var client = _authorizedApiClient.CreateClient();
-        var response = await client.PostAsJsonAsync("api/Recipes/filter", userIngredients); // Send ingredients to backend API for filtering
+
+        // 1) Get all ingredients from backend (ID + Name)
+        var allIngredientsResponse = await client.GetAsync("api/ingredients");
+        if (!allIngredientsResponse.IsSuccessStatusCode)
+        {
+            // Could not load ingredients → fail gracefully
+            return PartialView("_FilteredRecipes", new List<RecipeDetailDto>());
+        }
+
+        var allIngredients =
+            await allIngredientsResponse.Content.ReadFromJsonAsync<List<IngredientDto>>()
+            ?? new List<IngredientDto>();
+
+        // 2) Build a lookup: ingredient name (lowercased) -> ID
+        var ingredientLookup = allIngredients
+            .GroupBy(i => i.IngredientName.Trim().ToLowerInvariant())
+            .ToDictionary(g => g.Key, g => g.First().IngredientId);
+
+        // 3) Map user input (names) -> ingredient IDs
+        var ingredientIds = userIngredients
+            .Where(s => !string.IsNullOrWhiteSpace(s))
+            .Select(s => s.Trim().ToLowerInvariant())
+            .Where(normalized => ingredientLookup.ContainsKey(normalized))
+            .Select(normalized => ingredientLookup[normalized])
+            .Distinct()
+            .ToList();
+
+        // If nothing matched, return empty result instead of calling backend
+        if (ingredientIds.Count == 0)
+        {
+            return PartialView("_FilteredRecipes", new List<RecipeDetailDto>());
+        }
+
+        // 4) Call backend endpoint that expects IDs (IEnumerable<int>)
+        var response = await client.PostAsJsonAsync("api/Recipes/filterWithIngredients", ingredientIds);
 
         if (!response.IsSuccessStatusCode)
             return PartialView("_FilteredRecipes", new List<RecipeDetailDto>());
 
-        var recipes = await response.Content.ReadFromJsonAsync<List<RecipeDetailDto>>() ?? new List<RecipeDetailDto>();
+        var recipes =
+            await response.Content.ReadFromJsonAsync<List<RecipeDetailDto>>()
+            ?? new List<RecipeDetailDto>();
+
         return PartialView("_FilteredRecipes", recipes);
     }
 
