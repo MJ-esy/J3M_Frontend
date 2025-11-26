@@ -52,11 +52,12 @@ h1{
     justify-content: center;
     width: auto;
     max-width: 100%;
+    font-weight:700;
 }
 
     .bgWhiteButton:hover {
         background-color: #FFB8B7;
-        font-weight: 700;
+        font-weight: 900;
         border-radius: 2rem; /* <-- rounder corners (adjust value as desired) */
         padding: 0.4rem 1rem; /* increase clickable area */
         border: none; /* remove default border if any */
@@ -64,6 +65,31 @@ h1{
         align-items: center;
         justify-content: center;
     }
+
+.bgBlueButton {
+    background-color: #2F91F7;
+    color: #000;
+    border-radius: 2rem; /* <-- rounder corners (adjust value as desired) */
+    padding: 0.4rem 1rem; /* increase clickable area */
+    border: none; /* remove default border if any */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    max-width: 100%;
+    font-weight: 700;
+}
+.bgBlueButton:hover {
+    background-color: #FFB8B7;
+    font-weight: 900;
+    border-radius: 2rem; /* <-- rounder corners (adjust value as desired) */
+    padding: 0.4rem 1rem; /* increase clickable area */
+    border: none; /* remove default border if any */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
 
 /*--------------Navigation bar related------------------*/
 
@@ -88,7 +114,6 @@ h1{
 }
 
 .nav-item:hover {
-    animation: shake 0.5s ease-in-out;
     text-shadow: 3px 3px 6px #2F91F7;
     font-weight:900;
 }
@@ -234,6 +259,8 @@ img {
         background-color: #000;
         color: #FFB8B7;
     }
+
+
 /*----- Cookie Consent Banner----*/
 .cookie-banner {
     position: fixed;
@@ -242,7 +269,7 @@ img {
     right: 20px;
     background-color: #FFF5F5;
     color: #333;
-    border: 2px solid #FFB6B6;
+    border: 3px solid #000;
     border-radius: 12px;
     padding: 16px 24px;
     font-family: 'Segoe UI', sans-serif;
@@ -315,3 +342,40 @@ img {
         margin: 0 1rem;
     }
 }
+
+/*----------------------Meal Planner -----------------------------*/
+/* Give the page room above the absolute footer */
+.mealplan-container {
+    padding-bottom: 80px;
+}
+
+/* Desktop: avoid internal scrolling in the left sticky column by
+   allowing the column to grow and adding extra bottom spacing so
+   footer does not overlap content. */
+@media (min-width: 992px) {
+    .mealplan-container {
+        padding-bottom: 120px;
+    }
+    /* extra clearance on desktop */
+    .filters-col {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 1rem;
+        /* remove internal scroll on desktop */
+        max-height: none;
+        overflow: visible;
+    }
+}
+
+/* Mobile / narrow screens: keep internal scrolling so the filter column remains usable */
+@media (max-width: 991.98px) {
+    .filters-col {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 1rem;
+        max-height: calc(100vh - 140px);
+        overflow: auto;
+    }
+}
+
+/*------------------------------------------End of Meal Planner---------------------------------------------------------------------*/

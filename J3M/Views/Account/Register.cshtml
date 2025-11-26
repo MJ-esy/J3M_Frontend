@@ -15,7 +15,19 @@
         <!-- Shows all ModelState errors -->
         <form asp-action="Register" method="post" novalidate aria-label="Create a new J3M account">
             @Html.AntiForgeryToken()
-            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            @* Bootstrap alert listing all ModelState errors (field + general) *@
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger mb-3" role="alert">
+                    <ul class="mb-0">
+                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                        {
+                            <li>@error.ErrorMessage</li>
+                        }
+                    </ul>
+                </div>
+            }
 
             <div class="mb-3">
                 <label asp-for="UserName" class="form-label">Username</label>
@@ -35,10 +47,10 @@
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
 
-            <button type="submit" class="btn bgWhiteButton w-100 rounded-pill mt-3">
+            <button type="submit" class="btn bgBlueButton w-100 rounded-pill mt-3">
                 Create account
             </button>
-
+         
             <p class="text-sm-center mb-2 mt-4">
                 <small>Already a member?</small>
             </p>
